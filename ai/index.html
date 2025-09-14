@@ -5,52 +5,1031 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Infrastructure & Automation - Johnathan</title>
     <style>
-        body { background: #000; color: #fff; font-family: 'Gotham', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; }
-        .nav { background: rgba(0,0,0,0.95); border-bottom: 1px solid #333; position: fixed; width: 100%; z-index: 1000; }
-        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 60px; padding: 0 48px; }
-        .logo { font-size: 24px; font-weight: 500; color: #fff; letter-spacing: 1px; }
-        .nav-links { display: flex; gap: 32px; list-style: none; }
-        .nav-links a { color: #fff; text-decoration: none; font-weight: 500; font-size: 14px; text-transform: uppercase; }
-        .nav-links a:hover { color: #3E6AE1; }
-        .hero { min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)); margin-bottom: 80px; }
-        .hero-title { font-size: clamp(40px, 6vw, 72px); font-weight: 500; margin-bottom: 24px; letter-spacing: -2px; }
-        .hero-subtitle { font-size: 20px; color: #a0a0a0; margin-bottom: 40px; font-weight: 300; letter-spacing: 1px; }
-        .hero-description { font-size: 16px; color: #a0a0a0; max-width: 600px; margin: 0 auto 48px; line-height: 1.6; }
-        .section { max-width: 900px; margin: 0 auto 60px; background: #181818; border-radius: 24px; padding: 48px 32px; box-shadow: 0 8px 32px rgba(62,106,225,0.08); border: 1px solid #222; }
-        .section-title { font-size: 32px; font-weight: 500; margin-bottom: 12px; letter-spacing: -0.5px; }
-        .section-description { font-size: 18px; color: #a0a0a0; line-height: 1.5; margin-bottom: 24px; }
-        .footer-cta { background: #111; padding: 80px 48px; text-align: center; border-top: 1px solid #333; }
-        .footer-title { font-size: 36px; font-weight: 500; margin-bottom: 24px; letter-spacing: -1px; }
-        .footer-text { font-size: 18px; color: #a0a0a0; margin-bottom: 40px; line-height: 1.6; }
-        .cta-button { padding: 16px 40px; background: #3E6AE1; color: #fff; text-decoration: none; font-weight: 500; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; transition: all 0.3s ease; display: inline-block; }
-        .cta-button:hover { background: #2E5AD1; transform: translateY(-2px); }
-        @media (max-width: 768px) { .nav-container, .footer-cta { padding: 0 24px; } .hero { padding: 0 24px; margin-bottom: 40px; } .section { padding: 32px 12px; } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Gotham', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.4;
+            color: #ffffff;
+            background: #000000;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 0 48px;
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 500;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .nav-links a:hover {
+            color: #fee140;
+        }
+
+        .back-btn {
+            padding: 8px 20px;
+            background: transparent;
+            color: #fee140;
+            border: 2px solid #fee140;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #fee140;
+            color: #000000;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="ai" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="3" fill="%23333" opacity="0.3"/><circle cx="80" cy="20" r="3" fill="%23333" opacity="0.3"/><circle cx="20" cy="80" r="3" fill="%23333" opacity="0.3"/><circle cx="80" cy="80" r="3" fill="%23333" opacity="0.3"/><circle cx="50" cy="50" r="5" fill="%23fee140" opacity="0.4"/><path d="M20,20 Q50,35 80,20 Q65,50 80,80 Q50,65 20,80 Q35,50 20,20" stroke="%23fa709a" stroke-width="1" fill="none" opacity="0.2"/></pattern></defs><rect width="100%" height="100%" fill="url(%23ai)"/></svg>');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(254, 225, 64, 0.15) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .hero-title {
+            font-size: clamp(40px, 6vw, 72px);
+            font-weight: 500;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            color: #fee140;
+            margin-bottom: 20px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            color: #a0a0a0;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .learning-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: #000000;
+            padding: 12px 32px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        /* AI Services Section */
+        .services-section {
+            padding: 120px 48px;
+            background: #000000;
+        }
+
+        .section-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            font-size: 20px;
+            color: #a0a0a0;
+            text-align: center;
+            margin-bottom: 80px;
+            line-height: 1.6;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .service-card {
+            background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 24px;
+            padding: 40px;
+            border: 2px solid #333;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(145deg, transparent 0%, rgba(254, 225, 64, 0.08) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-card:hover {
+            border-color: #fee140;
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(254, 225, 64, 0.2);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(254, 225, 64, 0.4);
+        }
+
+        /* Individual service colors */
+        .n8n .service-icon {
+            background: linear-gradient(135deg, #ea4c89 0%, #f093fb 100%);
+        }
+
+        .ollama .service-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .coding .service-icon {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .rag .service-icon {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .automation .service-icon {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        .infrastructure .service-icon {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+
+        .service-card h3 {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .service-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .status-active {
+            background: rgba(67, 233, 123, 0.2);
+            color: #43e97b;
+        }
+
+        .status-learning {
+            background: rgba(254, 225, 64, 0.2);
+            color: #fee140;
+        }
+
+        .status-planning {
+            background: rgba(250, 112, 154, 0.2);
+            color: #fa709a;
+        }
+
+        .service-card p {
+            color: #a0a0a0;
+            margin-bottom: 24px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        .capabilities-list {
+            list-style: none;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .capabilities-list li {
+            color: #fee140;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 14px;
+        }
+
+        .capabilities-list li::before {
+            content: '⚡';
+            position: absolute;
+            left: 0;
+            font-size: 12px;
+        }
+
+        .contact-btn {
+            padding: 12px 24px;
+            background: transparent;
+            color: #fee140;
+            border: 2px solid #fee140;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-btn:hover {
+            background: #fee140;
+            color: #000000;
+        }
+
+        /* Collaboration Section */
+        .collaboration-section {
+            padding: 120px 48px;
+            background: #111111;
+        }
+
+        .collaboration-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .collaboration-content h2 {
+            font-size: 48px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .collaboration-content p {
+            font-size: 18px;
+            color: #a0a0a0;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .collaboration-features {
+            list-style: none;
+        }
+
+        .collaboration-features li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(254, 225, 64, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #fee140;
+        }
+
+        .collaboration-features li strong {
+            color: #fee140;
+            margin-right: 12px;
+            min-width: 140px;
+        }
+
+        .collaboration-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .ai-network {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #fee140;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-network::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(254, 225, 64, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .ai-center {
+            font-size: 72px;
+            z-index: 2;
+        }
+
+        /* Learning Roadmap */
+        .roadmap-section {
+            padding: 120px 48px;
+            background: #000000;
+        }
+
+        .roadmap-timeline {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #fee140 0%, #fa709a 50%, #43e97b 100%);
+            transform: translateX(-50%);
+        }
+
+        .roadmap-item {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 50px;
+            position: relative;
+            margin-bottom: 60px;
+        }
+
+        .roadmap-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-left: 50px;
+            padding-right: 0;
+        }
+
+        .roadmap-content {
+            background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 15px;
+            padding: 30px;
+            width: 400px;
+            border: 1px solid #fee140;
+            position: relative;
+        }
+
+        .roadmap-item::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 30px;
+            width: 16px;
+            height: 16px;
+            background: #fee140;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            border: 3px solid #000;
+        }
+
+        .roadmap-phase {
+            font-size: 14px;
+            color: #fee140;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .roadmap-content h4 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .roadmap-content p {
+            color: #a0a0a0;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 120px 48px;
+            background: #111111;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 60px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: #fee140;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 120px 48px;
+            background: #000000;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 40px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .cta-text {
+            font-size: 18px;
+            color: #a0a0a0;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            padding: 16px 40px;
+            background: #fee140;
+            color: #000000;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border-radius: 4px;
+        }
+
+        .cta-button:hover {
+            background: #fa709a;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 24px;
+            }
+
+            .hero, .services-section, .collaboration-section, .roadmap-section, .stats-section, .cta-section {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .collaboration-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .roadmap-timeline::before {
+                left: 20px;
+            }
+
+            .roadmap-item, .roadmap-item:nth-child(even) {
+                justify-content: flex-start;
+                padding-left: 50px;
+                padding-right: 0;
+            }
+
+            .roadmap-item::before {
+                left: 20px;
+                transform: none;
+            }
+
+            .roadmap-content {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .ai-network {
+                width: 200px;
+                height: 200px;
+            }
+
+            .ai-center {
+                font-size: 48px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .service-card, .roadmap-item {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.3s; }
+        .service-card:nth-child(4) { animation-delay: 0.4s; }
+        .service-card:nth-child(5) { animation-delay: 0.5s; }
+        .service-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .ai-network {
+            animation: rotate 20s linear infinite;
+        }
     </style>
 </head>
 <body>
-    <nav class="nav">
+    <!-- Navigation -->
+    <nav>
         <div class="nav-container">
-            <div class="logo">JOHNATHAN</div>
+            <a href="index.html" class="logo">JOHNAVERSE</a>
             <ul class="nav-links">
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="../cloud/index.html">Cloud</a></li>
+                <li><a href="#" onclick="history.back()" class="back-btn">← Back</a></li>
                 <li><a href="mailto:contact@johnaverse.com">Contact</a></li>
             </ul>
         </div>
     </nav>
+
+    <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-title">AI Infrastructure & Automation</div>
-        <div class="hero-subtitle">Machine Learning, MLOps & Automation (Studying)</div>
-        <div class="hero-description">Building and automating AI infrastructure for scalable model training, deployment, and monitoring. Exploring the latest in MLOps, orchestration, and intelligent automation.</div>
+        <div class="hero-content">
+            <h1 class="hero-title">AI Infrastructure & Automation</h1>
+            <div class="hero-subtitle">Next-Generation Intelligence Systems</div>
+            <p class="hero-description">
+                Exploring cutting-edge AI infrastructure with n8n automation, LLM hosting, 
+                intelligent coding assistance, and RAG implementations for enhanced productivity.
+            </p>
+            <div class="learning-badge">Currently Learning & Collaborating</div>
+        </div>
     </section>
-    <section class="section">
-        <div class="section-title">What I'm Studying</div>
-        <div class="section-description">- Distributed training & GPU clusters<br>- Model deployment pipelines<br>- Automated data labeling & monitoring<br>- Orchestration with Kubernetes & cloud-native tools</div>
+
+    <!-- AI Services Section -->
+    <section class="services-section">
+        <div class="section-container">
+            <h2 class="section-title">AI Services & Capabilities</h2>
+            <p class="section-subtitle">
+                Advanced AI infrastructure combining automation, machine learning, and intelligent systems for enhanced business operations
+            </p>
+            
+            <div class="services-grid">
+                <!-- n8n Automation -->
+                <div class="service-card n8n">
+                    <div class="service-icon">🔄</div>
+                    <div class="service-status status-active">Active</div>
+                    <h3>n8n Workflow Automation</h3>
+                    <p>Powerful workflow automation platform enabling complex business process automation with visual node-based editor and extensive integrations.</p>
+                    <ul class="capabilities-list">
+                        <li>Visual workflow designer</li>
+                        <li>400+ integrations available</li>
+                        <li>Custom function nodes</li>
+                        <li>API endpoint creation</li>
+                        <li>Scheduled automation</li>
+                    </ul>
+                    <button class="contact-btn" onclick="contactService('n8n')">Explore n8n</button>
+                </div>
+
+                <!-- Ollama LLM -->
+                <div class="service-card ollama">
+                    <div class="service-icon">🧠</div>
+                    <div class="service-status status-active">Active</div>
+                    <h3>Ollama LLM Hosting</h3>
+                    <p>Local large language model hosting with Ollama, providing secure, private AI inference without external dependencies or data sharing.</p>
+                    <ul class="capabilities-list">
+                        <li>Local model deployment</li>
+                        <li>Multiple model support</li>
+                        <li>API endpoint access</li>
+                        <li>Privacy-first approach</li>
+                        <li>Custom model fine-tuning</li>
+                    </ul>
+                    <button class="contact-btn" onclick="contactService('ollama')">Learn More</button>
+                </div>
+
+                <!-- AI-Powered Coding -->
+                <div class="service-card coding">
+                    <div class="service-icon">💻</div>
+                    <div class="service-status status-learning">Learning</div>
+                    <h3>AI-Powered Development</h3>
+                    <p>Intelligent coding assistance and automation using AI models for code generation, review, and optimization across multiple programming languages.</p>
+                    <ul class="capabilities-list">
+                        <li>Code generation assistance</li>
+                        <li>Automated code review</li>
+                        <li>Bug detection and fixes</li>
+                        <li>Documentation generation</li>
+                        <li>Performance optimization</li>
+                    </ul>
+                    <button class="contact-btn" onclick="contactService('coding')">Collaborate</button>
+                </div>
+
+                <!-- RAG Systems -->
+                <div class="service-card rag">
+                    <div class="service-icon">📚</div>
+                    <div class="service-status status-learning">Learning</div>
+                    <h3>RAG Implementation</h3>
+                    <p>Retrieval-Augmented Generation systems combining large language models with custom knowledge bases for contextually accurate responses.</p>
+                    <ul class="capabilities-list">
+                        <li>Custom knowledge integration</li>
+                        <li>Vector database implementation</li>
+                        <li>Semantic search capabilities</li>
+                        <li>Context-aware responses</li>
+                        <li>Document processing pipeline</li>
+                    </ul>
+                    <button class="contact-btn" onclick="contactService('rag')">Discuss RAG</button>
+                </div>
+
+                <!-- Intelligent Automation -->
+                <div class="service-card automation">
+                    <div class="service-icon">🤖</div>
+                    <div class="service-status status-planning">Planning</div>
+                    <h3>Intelligent Process Automation</h3>
+                    <p>Advanced automation combining AI decision-making with traditional workflow automation for complex business process optimization.</p>
+                    <ul class="capabilities-list">
+                        <li>AI-driven decision trees</li>
+                        <li>Natural language processing</li>
+                        <li>Predictive automation</li>
+                        <li>Self-optimizing workflows</li>
+                        <li>Multi-modal data processing</li>
+                    </ul>
+                    <button class="contact-btn" onclick="contactService('automation')">Future Plans</button>
+                </div>
+
+                <!-- AI Infrastructure -->
+                <div class="service-card infrastructure">
+                    <div class="service-icon">🏗️</div>
+                    <div class="service-status status-learning">Learning</div>
+                    <h3>AI Infrastructure Management</h3>
+                    <p>Scalable AI infrastructure deployment and management including GPU clusters, model serving, and automated scaling solutions.</p>
+                    <ul class="capabilities-list">
+                        <li>GPU cluster management</li>
+                        <li>Model deployment pipelines</li>
+                        <li>Auto-scaling infrastructure</li>
+                        <li>Performance monitoring</li>
+                        <li>Cost optimization</li>
+                    </ul>
+                    <button class="contact-btn" onclick="contactService('infrastructure')">Partner With Me</button>
+                </div>
+            </div>
+        </div>
     </section>
-    <section class="footer-cta">
-        <div class="footer-title">Curious About AI?</div>
-        <div class="footer-text">Let's connect and discuss the future of AI infrastructure and automation.</div>
-        <a href="mailto:contact@johnaverse.com?subject=AI%20Infrastructure%20Inquiry" class="cta-button">Schedule Consultation</a>
+
+    <!-- Collaboration Section -->
+    <section class="collaboration-section">
+        <div class="section-container">
+            <div class="collaboration-grid">
+                <div class="collaboration-content">
+                    <h2>Let's Build Together</h2>
+                    <p>AI infrastructure is rapidly evolving, and collaboration accelerates innovation. I'm actively learning and implementing cutting-edge AI solutions while seeking partnerships for complex projects.</p>
+                    
+                    <ul class="collaboration-features">
+                        <li><strong>Joint Learning:</strong> Collaborative exploration of new AI technologies</li>
+                        <li><strong>Shared Projects:</strong> Partner on complex AI infrastructure implementations</li>
+                        <li><strong>Knowledge Exchange:</strong> Regular technical discussions and skill sharing</li>
+                        <li><strong>Resource Sharing:</strong> Combined infrastructure for larger deployments</li>
+                        <li><strong>Innovation Lab:</strong> Experimental projects and proof-of-concepts</li>
+                        <li><strong>Open Source:</strong> Contributing to and building upon community projects</li>
+                    </ul>
+                </div>
+                
+                <div class="collaboration-visual">
+                    <div class="ai-network">
+                        <div class="ai-center">🚀</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
+
+    <!-- Learning Roadmap -->
+    <section class="roadmap-section">
+        <div class="section-container">
+            <h2 class="section-title">Learning & Development Roadmap</h2>
+            
+            <div class="roadmap-timeline">
+                <div class="roadmap-item">
+                    <div class="roadmap-content">
+                        <div class="roadmap-phase">Phase 01 - Current</div>
+                        <h4>Foundation & Automation</h4>
+                        <p>Mastering n8n workflows, Ollama deployment, and basic AI integration patterns. Building solid infrastructure foundations.</p>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-content">
+                        <div class="roadmap-phase">Phase 02 - Q2 2025</div>
+                        <h4>RAG & Knowledge Systems</h4>
+                        <p>Implementing sophisticated RAG pipelines, vector databases, and custom knowledge base integrations for enhanced AI capabilities.</p>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-content">
+                        <div class="roadmap-phase">Phase 03 - Q3 2025</div>
+                        <h4>Advanced AI Infrastructure</h4>
+                        <p>GPU cluster management, model serving optimization, and scalable AI deployment strategies for enterprise applications.</p>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-content">
+                        <div class="roadmap-phase">Phase 04 - Future</div>
+                        <h4>Intelligent Automation</h4>
+                        <p>Self-optimizing AI systems, predictive automation, and fully autonomous infrastructure management capabilities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Stats -->
+    <section class="stats-section">
+        <div class="section-container">
+            <h2 class="section-title">Current Capabilities</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">n8n Workflows</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">LLM Models Deployed</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">AI Services Uptime</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Privacy Focused</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Learning Potential</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">Ready to Innovate Together?</h2>
+            <p class="cta-text">
+                Whether you need AI automation solutions or want to collaborate on cutting-edge projects, 
+                let's explore how we can combine expertise to build the future of intelligent systems.
+            </p>
+            <a href="#" class="cta-button" onclick="contactService('collaboration')">Start Collaboration</a>
+        </div>
+    </section>
+
+    <script>
+        // Contact functionality for specific services
+        function contactService(service) {
+            const serviceNames = {
+                'n8n': 'n8n Workflow Automation',
+                'ollama': 'Ollama LLM Hosting',
+                'coding': 'AI-Powered Development',
+                'rag': 'RAG Implementation',
+                'automation': 'Intelligent Process Automation',
+                'infrastructure': 'AI Infrastructure Management',
+                'collaboration': 'AI Infrastructure Collaboration'
+            };
+
+            const serviceDetails = {
+                'n8n': 'n8n automation workflows, API integrations, and custom business process automation',
+                'ollama': 'local LLM hosting, model deployment, and private AI inference solutions',
+                'coding': 'AI-assisted development, code generation, and intelligent programming tools',
+                'rag': 'RAG system implementation, vector databases, and knowledge base integration',
+                'automation': 'intelligent process automation and AI-driven workflow optimization',
+                'infrastructure': 'AI infrastructure design, GPU cluster management, and scalable deployments',
+                'collaboration': 'joint AI projects, knowledge sharing, and collaborative innovation'
+            };
+
+            const subject = `${serviceNames[service]} Discussion`;
+            const message = `Hi Johnathan,
+
+I'm interested in discussing ${serviceDetails[service]} and would like to explore:
+
+- Current capabilities and implementation options
+- Collaboration opportunities and partnership potential
+- Learning and development possibilities
+- Technical requirements and infrastructure needs
+- Project timelines and next steps
+
+I believe we could create something innovative together. Let's schedule a discussion!
+
+Best regards`;
+
+            window.location.href = `mailto:contact@johnaverse.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            const speed = 0.3;
+            
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * speed}px)`;
+            }
+        });
+
+        // Enhanced card interactions
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Stats counter animation
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach(stat => {
+                        if (!stat.classList.contains('animated')) {
+                            stat.classList.add('animated');
+                            stat.style.animation = 'fadeInUp 0.6s ease-out';
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infrastructure & Backup Strategy - Johnathan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Gotham', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.4;
+            color: #ffffff;
+            background: #000000;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 0 48px;
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 500;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .nav-links a:hover {
+            color: #3E6AE1;
+        }
+
+        .back-btn {
+            padding: 8px 20px;
+            background: transparent;
+            color: #3E6AE1;
+            border: 2px solid #3E6AE1;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #3E6AE1;
+            color: #ffffff;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="circuit" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M10,10 L50,10 M30,10 L30,50 M10,50 L50,50" stroke="%23333" stroke-width="2" fill="none" opacity="0.3"/><circle cx="10" cy="10" r="3" fill="%23666"/><circle cx="50" cy="10" r="3" fill="%23666"/><circle cx="30" cy="50" r="3" fill="%23666"/><circle cx="50" cy="50" r="3" fill="%23666"/></pattern></defs><rect width="100%" height="100%" fill="url(%23circuit)"/></svg>');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(62, 106, 225, 0.15) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .hero-title {
+            font-size: clamp(40px, 6vw, 72px);
+            font-weight: 500;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            color: #3E6AE1;
+            margin-bottom: 20px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            color: #a0a0a0;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .reliability-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: #000000;
+            padding: 12px 32px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+            margin-bottom: 40px;
+        }
+
+        /* 3-2-1 Strategy Section */
+        .strategy-section {
+            padding: 120px 48px;
+            background: #000000;
+        }
+
+        .section-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            font-size: 20px;
+            color: #a0a0a0;
+            text-align: center;
+            margin-bottom: 80px;
+            line-height: 1.6;
+        }
+
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .strategy-card {
+            background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 24px;
+            padding: 40px;
+            text-align: center;
+            border: 2px solid #333;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .strategy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(145deg, transparent 0%, rgba(62, 106, 225, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .strategy-card:hover::before {
+            opacity: 1;
+        }
+
+        .strategy-card:hover {
+            border-color: #3E6AE1;
+            transform: translateY(-5px);
+        }
+
+        .strategy-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #3E6AE1 0%, #2E5AD1 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 700;
+            margin: 0 auto 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .strategy-card h3 {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .strategy-card p {
+            color: #a0a0a0;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Infrastructure Details */
+        .infrastructure-section {
+            padding: 120px 48px;
+            background: #111111;
+        }
+
+        .infrastructure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .infrastructure-card {
+            background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .infrastructure-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(145deg, transparent 0%, rgba(67, 233, 123, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .infrastructure-card:hover::before {
+            opacity: 1;
+        }
+
+        .infrastructure-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .infrastructure-card h3 {
+            font-size: 22px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .infrastructure-card p {
+            color: #a0a0a0;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        .spec-list {
+            list-style: none;
+            position: relative;
+            z-index: 2;
+        }
+
+        .spec-list li {
+            color: #3E6AE1;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .spec-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #43e97b;
+            font-weight: bold;
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            padding: 120px 48px;
+            background: #000000;
+        }
+
+        .timeline-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #3E6AE1 0%, #43e97b 100%);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 30px;
+            position: relative;
+            margin-bottom: 60px;
+        }
+
+        .timeline-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-left: 30px;
+            padding-right: 0;
+        }
+
+        .timeline-content {
+            background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 15px;
+            padding: 30px;
+            width: 400px;
+            border: 1px solid #333;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 20px;
+            width: 12px;
+            height: 12px;
+            background: #3E6AE1;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .timeline-content h4 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: #3E6AE1;
+        }
+
+        .timeline-content p {
+            color: #a0a0a0;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 120px 48px;
+            background: #111111;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 60px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: #43e97b;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 120px 48px;
+            background: #000000;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 40px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .cta-text {
+            font-size: 18px;
+            color: #a0a0a0;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            padding: 16px 40px;
+            background: #43e97b;
+            color: #000000;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border-radius: 4px;
+        }
+
+        .cta-button:hover {
+            background: #38f9d7;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 24px;
+            }
+
+            .hero, .strategy-section, .infrastructure-section, .timeline-section, .stats-section, .cta-section {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .strategy-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .infrastructure-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item, .timeline-item:nth-child(even) {
+                justify-content: flex-start;
+                padding-left: 50px;
+                padding-right: 0;
+            }
+
+            .timeline-item::before {
+                left: 20px;
+                transform: none;
+            }
+
+            .timeline-content {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .strategy-card, .infrastructure-card, .timeline-item {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .strategy-card:nth-child(1) { animation-delay: 0.1s; }
+        .strategy-card:nth-child(2) { animation-delay: 0.2s; }
+        .strategy-card:nth-child(3) { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">JOHNAVERSE</div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="history.back()" class="back-btn">← Back</a></li>
+                <li><a href="mailto:contact@johnaverse.com">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Infrastructure & Backup Strategy</h1>
+            <div class="hero-subtitle">3-2-1 Backup Architecture</div>
+            <p class="hero-description">
+                Enterprise-grade infrastructure with bulletproof data protection. 
+                Three copies, two different media types, one offsite location.
+            </p>
+            <div class="reliability-badge">NEVER LOST YOUR DATA</div>
+        </div>
+    </section>
+
+    <!-- 3-2-1 Strategy Section -->
+    <section class="strategy-section">
+        <div class="section-container">
+            <h2 class="section-title">3-2-1 Backup Strategy</h2>
+            <p class="section-subtitle">
+                Industry-leading backup methodology ensuring maximum data protection and business continuity
+            </p>
+            
+            <div class="strategy-grid">
+                <div class="strategy-card">
+                    <div class="strategy-number">3</div>
+                    <h3>Copies of Data</h3>
+                    <p>Maintain three complete copies of all critical data across different storage systems and locations for maximum redundancy.</p>
+                </div>
+                
+                <div class="strategy-card">
+                    <div class="strategy-number">2</div>
+                    <h3>Different Media</h3>
+                    <p>Store data on two different types of media to protect against media-specific failures and ensure diverse recovery options.</p>
+                </div>
+                
+                <div class="strategy-card">
+                    <div class="strategy-number">1</div>
+                    <h3>Offsite Location</h3>
+                    <p>Keep at least one backup copy in an offsite location to protect against local disasters and geographic risks.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Infrastructure Details -->
+    <section class="infrastructure-section">
+        <div class="section-container">
+            <h2 class="section-title">Infrastructure Components</h2>
+            
+            <div class="infrastructure-grid">
+                <!-- Local RAID Protection -->
+                <div class="infrastructure-card">
+                    <div class="infrastructure-icon">🏗️</div>
+                    <h3>Local RAID Protection</h3>
+                    <p>Redundant storage arrays providing immediate protection against drive failures with hot-swap capabilities.</p>
+                    <ul class="spec-list">
+                        <li>RAID 5 (Active Server) - Performance + Redundancy</li>
+                        <li>RAID 1 (Backup Server) - Mirror Protection</li>
+                        <li>Hot-swappable drive bays</li>
+                        <li>Real-time health monitoring</li>
+                    </ul>
+                </div>
+
+                <!-- Snapshot System -->
+                <div class="infrastructure-card">
+                    <div class="infrastructure-icon">📸</div>
+                    <h3>Intelligent Snapshots</h3>
+                    <p>Automated snapshot system with variable frequency based on data criticality and change patterns.</p>
+                    <ul class="spec-list">
+                        <li>Critical files: Every 3 hours</li>
+                        <li>Standard files: Every 24 hours</li>
+                        <li>Point-in-time recovery</li>
+                        <li>Incremental snapshot technology</li>
+                    </ul>
+                </div>
+
+                <!-- Offsite Backup -->
+                <div class="infrastructure-card">
+                    <div class="infrastructure-icon">🌍</div>
+                    <h3>Offsite Backup Network</h3>
+                    <p>Geographically distributed backup infrastructure across multiple continents for maximum protection.</p>
+                    <ul class="spec-list">
+                        <li>Hong Kong data center</li>
+                        <li>Toronto, Canada facility</li>
+                        <li>Energy-efficient scheduling</li>
+                        <li>Encrypted transmission</li>
+                    </ul>
+                </div>
+
+                <!-- Monitoring & Testing -->
+                <div class="infrastructure-card">
+                    <div class="infrastructure-icon">🔍</div>
+                    <h3>Backup Verification</h3>
+                    <p>Comprehensive testing and monitoring systems ensuring backup integrity and recoverability.</p>
+                    <ul class="spec-list">
+                        <li>Monthly restore testing</li>
+                        <li>Automated integrity checks</li>
+                        <li>Performance monitoring</li>
+                        <li>Alert notifications</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Backup Timeline -->
+    <section class="timeline-section">
+        <div class="section-container">
+            <h2 class="section-title">Backup Process Timeline</h2>
+            
+            <div class="timeline-container">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>Real-time Monitoring</h4>
+                            <p>Continuous monitoring of all storage systems with immediate alerting for any anomalies or potential issues.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>Snapshot Creation</h4>
+                            <p>Automated snapshots taken at scheduled intervals - every 3 hours for critical data, daily for standard files.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>Offsite Sync</h4>
+                            <p>Scheduled activation of offsite backup servers for secure transmission to Hong Kong and Toronto locations.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h4>Monthly Verification</h4>
+                            <p>Comprehensive backup verification testing including full restore procedures to ensure data integrity.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Stats -->
+    <section class="stats-section">
+        <div class="section-container">
+            <h2 class="section-title">Reliability Metrics</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Data Loss Events</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Backup Success Rate</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">< 15min</div>
+                    <div class="stat-label">Recovery Time</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Monitoring</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Verification Tests</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">Bulletproof Your Data</h2>
+            <p class="cta-text">
+                Ready to implement enterprise-grade data protection? Let's discuss your backup requirements 
+                and design a custom 3-2-1 strategy for your infrastructure.
+            </p>
+            <a href="#" class="cta-button" onclick="contactInfrastructure()">Get Infrastructure Consultation</a>
+        </div>
+    </section>
+
+    <script>
+        function contactInfrastructure() {
+            const subject = 'Infrastructure & 3-2-1 Backup Consultation';
+            const message = `Hi Johnathan,
+
+I'm interested in your 3-2-1 backup infrastructure and would like to discuss:
+
+- Infrastructure requirements assessment
+- Custom backup strategy design  
+- Implementation timeline and costs
+- SLA and support options
+- Data migration services
+
+Please provide more details about your enterprise backup solutions.
+
+Best regards`;
+
+            window.location.href = `mailto:contact@johnaverse.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            const speed = 0.3;
+            
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * speed}px)`;
+            }
+        });
+
+        // Stats counter animation
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach(stat => {
+                        if (!stat.classList.contains('animated')) {
+                            stat.classList.add('animated');
+                            // Simple pulse animation
+                            stat.style.animation = 'pulse 0.6s ease-out';
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+    </script>
+</body>
+</html>

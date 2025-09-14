@@ -3,54 +3,955 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberSecurity Labs</title>
+    <title>CyberSecurity Engineering - Johnathan</title>
     <style>
-        body { background: #000; color: #fff; font-family: 'Gotham', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; }
-        .nav { background: rgba(0,0,0,0.95); border-bottom: 1px solid #333; position: fixed; width: 100%; z-index: 1000; }
-        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 60px; padding: 0 48px; }
-        .logo { font-size: 24px; font-weight: 500; color: #fff; letter-spacing: 1px; }
-        .nav-links { display: flex; gap: 32px; list-style: none; }
-        .nav-links a { color: #fff; text-decoration: none; font-weight: 500; font-size: 14px; text-transform: uppercase; }
-        .nav-links a:hover { color: #3E6AE1; }
-        .hero { min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)); margin-bottom: 80px; }
-        .hero-title { font-size: clamp(40px, 6vw, 72px); font-weight: 500; margin-bottom: 24px; letter-spacing: -2px; }
-        .hero-subtitle { font-size: 20px; color: #a0a0a0; margin-bottom: 40px; font-weight: 300; letter-spacing: 1px; }
-        .hero-description { font-size: 16px; color: #a0a0a0; max-width: 600px; margin: 0 auto 48px; line-height: 1.6; }
-        .section { max-width: 900px; margin: 0 auto 60px; background: #181818; border-radius: 24px; padding: 48px 32px; box-shadow: 0 8px 32px rgba(62,106,225,0.08); border: 1px solid #222; }
-        .section-title { font-size: 32px; font-weight: 500; margin-bottom: 12px; letter-spacing: -0.5px; }
-        .section-description { font-size: 18px; color: #a0a0a0; line-height: 1.5; margin-bottom: 24px; }
-        .footer-cta { background: #111; padding: 80px 48px; text-align: center; border-top: 1px solid #333; }
-        .footer-title { font-size: 36px; font-weight: 500; margin-bottom: 24px; letter-spacing: -1px; }
-        .footer-text { font-size: 18px; color: #a0a0a0; margin-bottom: 40px; line-height: 1.6; }
-        .cta-button { padding: 16px 40px; background: #3E6AE1; color: #fff; text-decoration: none; font-weight: 500; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; transition: all 0.3s ease; display: inline-block; }
-        .cta-button:hover { background: #2E5AD1; transform: translateY(-2px); }
-        @media (max-width: 768px) { .nav-container, .footer-cta { padding: 0 24px; } .hero { padding: 0 24px; margin-bottom: 40px; } .section { padding: 32px 12px; } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Gotham', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.4;
+            color: #ffffff;
+            background: #000000;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 0 48px;
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 500;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .nav-links a:hover {
+            color: #f5576c;
+        }
+
+        .back-btn {
+            padding: 8px 20px;
+            background: transparent;
+            color: #f5576c;
+            border: 2px solid #f5576c;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #f5576c;
+            color: #ffffff;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="security" width="80" height="80" patternUnits="userSpaceOnUse"><path d="M40,10 L70,40 L40,70 L10,40 Z" stroke="%23333" stroke-width="1" fill="none" opacity="0.2"/><circle cx="40" cy="40" r="15" stroke="%23f5576c" stroke-width="1" fill="none" opacity="0.3"/><path d="M30,40 L37,47 L50,34" stroke="%23f5576c" stroke-width="2" fill="none" opacity="0.5"/></pattern></defs><rect width="100%" height="100%" fill="url(%23security)"/></svg>');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(245, 87, 108, 0.15) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .hero-title {
+            font-size: clamp(40px, 6vw, 72px);
+            font-weight: 500;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            color: #f5576c;
+            margin-bottom: 20px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            color: #a0a0a0;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .security-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: #ffffff;
+            padding: 12px 32px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        /* Defense Systems Section */
+        .defense-section {
+            padding: 120px 48px;
+            background: #000000;
+        }
+
+        .section-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            font-size: 20px;
+            color: #a0a0a0;
+            text-align: center;
+            margin-bottom: 80px;
+            line-height: 1.6;
+        }
+
+        .defense-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .defense-card {
+            background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 24px;
+            padding: 40px;
+            border: 2px solid #333;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .defense-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(145deg, transparent 0%, rgba(245, 87, 108, 0.08) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .defense-card:hover::before {
+            opacity: 1;
+        }
+
+        .defense-card:hover {
+            border-color: #f5576c;
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(245, 87, 108, 0.2);
+        }
+
+        .defense-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .defense-card:hover .defense-icon {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+        }
+
+        /* Individual defense system colors */
+        .threat-intel .defense-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .honeypot .defense-icon {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        .vuln-scanner .defense-icon {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+
+        .monitoring .defense-icon {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .defense-card h3 {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .defense-card p {
+            color: #a0a0a0;
+            margin-bottom: 24px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        .capabilities-list {
+            list-style: none;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .capabilities-list li {
+            color: #f5576c;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 14px;
+        }
+
+        .capabilities-list li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #f5576c;
+            font-size: 12px;
+        }
+
+        .contact-btn {
+            padding: 12px 24px;
+            background: transparent;
+            color: #f5576c;
+            border: 2px solid #f5576c;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-btn:hover {
+            background: #f5576c;
+            color: #ffffff;
+        }
+
+        /* Lab Infrastructure Section */
+        .lab-section {
+            padding: 120px 48px;
+            background: #111111;
+        }
+
+        .lab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .lab-content h2 {
+            font-size: 48px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .lab-content p {
+            font-size: 18px;
+            color: #a0a0a0;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .lab-specs {
+            list-style: none;
+        }
+
+        .lab-specs li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(245, 87, 108, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #f5576c;
+        }
+
+        .lab-specs li strong {
+            color: #f5576c;
+            margin-right: 12px;
+            min-width: 140px;
+        }
+
+        .lab-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .lab-diagram {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #f5576c;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lab-diagram::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(245, 87, 108, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .lab-center {
+            font-size: 72px;
+            z-index: 2;
+        }
+
+        /* Threat Response Timeline */
+        .response-section {
+            padding: 120px 48px;
+            background: #000000;
+        }
+
+        .response-timeline {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .response-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #f5576c 0%, #f093fb 100%);
+            transform: translateX(-50%);
+        }
+
+        .response-item {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 50px;
+            position: relative;
+            margin-bottom: 60px;
+        }
+
+        .response-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-left: 50px;
+            padding-right: 0;
+        }
+
+        .response-content {
+            background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 15px;
+            padding: 30px;
+            width: 400px;
+            border: 1px solid #f5576c;
+            position: relative;
+        }
+
+        .response-item::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 30px;
+            width: 16px;
+            height: 16px;
+            background: #f5576c;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            border: 3px solid #000;
+        }
+
+        .response-step {
+            font-size: 14px;
+            color: #f5576c;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .response-content h4 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .response-content p {
+            color: #a0a0a0;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 120px 48px;
+            background: #111111;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 60px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: #f5576c;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 120px 48px;
+            background: #000000;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 40px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .cta-text {
+            font-size: 18px;
+            color: #a0a0a0;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            padding: 16px 40px;
+            background: #f5576c;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border-radius: 4px;
+        }
+
+        .cta-button:hover {
+            background: #f093fb;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 24px;
+            }
+
+            .hero, .defense-section, .lab-section, .response-section, .stats-section, .cta-section {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .defense-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lab-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .response-timeline::before {
+                left: 20px;
+            }
+
+            .response-item, .response-item:nth-child(even) {
+                justify-content: flex-start;
+                padding-left: 50px;
+                padding-right: 0;
+            }
+
+            .response-item::before {
+                left: 20px;
+                transform: none;
+            }
+
+            .response-content {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .lab-diagram {
+                width: 200px;
+                height: 200px;
+            }
+
+            .lab-center {
+                font-size: 48px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .defense-card, .response-item {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .defense-card:nth-child(1) { animation-delay: 0.1s; }
+        .defense-card:nth-child(2) { animation-delay: 0.2s; }
+        .defense-card:nth-child(3) { animation-delay: 0.3s; }
+        .defense-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .lab-diagram {
+            animation: pulse 3s ease-in-out infinite;
+        }
     </style>
 </head>
 <body>
-    <nav class="nav">
+    <!-- Navigation -->
+    <nav>
         <div class="nav-container">
-            <div class="logo">JOHNATHAN</div>
+            <a href="index.html" class="logo">JOHNAVERSE</a>
             <ul class="nav-links">
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="../cloud/index.html">Cloud</a></li>
+                <li><a href="#" onclick="history.back()" class="back-btn">← Back</a></li>
                 <li><a href="mailto:contact@johnaverse.com">Contact</a></li>
             </ul>
         </div>
     </nav>
+
+    <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-title">CyberSecurity Engineer</div>
-        <div class="hero-subtitle">Defensive Security & Threat Mitigation</div>
-        <div class="hero-description">Protecting digital assets through proactive defense, penetration testing, and incident response. Specialized in securing cloud, network, and application layers.</div>
+        <div class="hero-content">
+            <h1 class="hero-title">CyberSecurity Engineering</h1>
+            <div class="hero-subtitle">Advanced Threat Defense Laboratory</div>
+            <p class="hero-description">
+                Comprehensive cybersecurity infrastructure featuring threat intelligence, 
+                honeypot networks, vulnerability assessment, and real-time monitoring systems.
+            </p>
+            <div class="security-badge">Zero Compromise Architecture</div>
+        </div>
     </section>
-    <section class="section">
-        <div class="section-title">What I Do</div>
-        <div class="section-description">- Security architecture & audits<br>- Penetration testing & vulnerability assessment<br>- Incident response & forensics<br>- Security automation & compliance</div>
+
+    <!-- Defense Systems Section -->
+    <section class="defense-section">
+        <div class="section-container">
+            <h2 class="section-title">Defense Systems</h2>
+            <p class="section-subtitle">
+                Multi-layered cybersecurity infrastructure designed to detect, analyze, and neutralize threats before they impact your systems
+            </p>
+            
+            <div class="defense-grid">
+                <!-- Threat Intelligence -->
+                <div class="defense-card threat-intel">
+                    <div class="defense-icon">🧠</div>
+                    <h3>Threat Intelligence Platform</h3>
+                    <p>Advanced threat intelligence gathering and analysis system providing real-time insights into emerging security threats and attack patterns.</p>
+                    <ul class="capabilities-list">
+                        <li>IOC (Indicators of Compromise) collection</li>
+                        <li>Threat actor profiling and attribution</li>
+                        <li>Global threat landscape monitoring</li>
+                        <li>Custom threat feed integration</li>
+                        <li>Predictive threat modeling</li>
+                    </ul>
+                    <button class="contact-btn" onclick="contactService('threat-intelligence')">Learn More</button>
+                </div>
+
+                <!-- Honeypot Network -->
+                <div class="defense-card honeypot">
+                    <div class="defense-icon">🍯</div>
+                    <h3>Honeypot Network</h3>
+                    <p>Distributed honeypot infrastructure designed to attract, trap, and analyze malicious activities while gathering valuable attack intelligence.</p>
+                    <ul class="capabilities-list">
+                        <li>High-interaction honeypots</li>
+                        <li>Network deception technology</li>
+                        <li>Automated malware collection</li>
+                        <li>Attack pattern analysis</li>
+                        <li>Threat actor behavior profiling</li>
+                    </ul>
+                    <button class="contact-btn" onclick="contactService('honeypot')">Learn More</button>
+                </div>
+
+                <!-- Vulnerability Scanner -->
+                <div class="defense-card vuln-scanner">
+                    <div class="defense-icon">🔍</div>
+                    <h3>Vulnerability Assessment</h3>
+                    <p>Comprehensive vulnerability scanning and assessment platform providing continuous security posture evaluation and remediation guidance.</p>
+                    <ul class="capabilities-list">
+                        <li>Network vulnerability scanning</li>
+                        <li>Web application security testing</li>
+                        <li>Configuration compliance checks</li>
+                        <li>Zero-day vulnerability research</li>
+                        <li>Automated penetration testing</li>
+                    </ul>
+                    <button class="contact-btn" onclick="contactService('vulnerability')">Learn More</button>
+                </div>
+
+                <!-- Monitoring & Alerts -->
+                <div class="defense-card monitoring">
+                    <div class="defense-icon">⚡</div>
+                    <h3>Security Monitoring</h3>
+                    <p>24/7 security monitoring and incident response system with advanced threat detection algorithms and automated alert mechanisms.</p>
+                    <ul class="capabilities-list">
+                        <li>SIEM (Security Information Event Management)</li>
+                        <li>Behavioral anomaly detection</li>
+                        <li>Real-time threat correlation</li>
+                        <li>Automated incident response</li>
+                        <li>Forensic analysis capabilities</li>
+                    </ul>
+                    <button class="contact-btn" onclick="contactService('monitoring')">Learn More</button>
+                </div>
+            </div>
+        </div>
     </section>
-    <section class="footer-cta">
-        <div class="footer-title">Need Security?</div>
-        <div class="footer-text">Let's discuss your security posture and engineer a defense strategy for your business.</div>
-        <a href="mailto:contact@johnaverse.com?subject=CyberSecurity%20Inquiry" class="cta-button">Schedule Consultation</a>
+
+    <!-- Lab Infrastructure -->
+    <section class="lab-section">
+        <div class="section-container">
+            <div class="lab-grid">
+                <div class="lab-content">
+                    <h2>Home Laboratory Infrastructure</h2>
+                    <p>Custom-built cybersecurity laboratory featuring enterprise-grade hardware and software solutions for comprehensive threat analysis and security research.</p>
+                    
+                    <ul class="lab-specs">
+                        <li><strong>Network Segmentation:</strong> Isolated threat analysis environments</li>
+                        <li><strong>Virtualization:</strong> Multiple OS and application testing platforms</li>
+                        <li><strong>Traffic Analysis:</strong> Deep packet inspection and protocol analysis</li>
+                        <li><strong>Malware Sandbox:</strong> Safe malware execution and behavior analysis</li>
+                        <li><strong>Forensic Tools:</strong> Digital evidence collection and analysis</li>
+                        <li><strong>Threat Emulation:</strong> Attack simulation and red team exercises</li>
+                    </ul>
+                </div>
+                
+                <div class="lab-visual">
+                    <div class="lab-diagram">
+                        <div class="lab-center">🏛️</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
+
+    <!-- Threat Response Timeline -->
+    <section class="response-section">
+        <div class="section-container">
+            <h2 class="section-title">Threat Response Process</h2>
+            
+            <div class="response-timeline">
+                <div class="response-item">
+                    <div class="response-content">
+                        <div class="response-step">Step 01</div>
+                        <h4>Detection & Collection</h4>
+                        <p>Automated systems continuously monitor network traffic, honeypot interactions, and threat intelligence feeds to detect potential security incidents.</p>
+                    </div>
+                </div>
+                
+                <div class="response-item">
+                    <div class="response-content">
+                        <div class="response-step">Step 02</div>
+                        <h4>Analysis & Correlation</h4>
+                        <p>Advanced analytics engines correlate threat indicators, analyze attack patterns, and determine the severity and scope of detected threats.</p>
+                    </div>
+                </div>
+                
+                <div class="response-item">
+                    <div class="response-content">
+                        <div class="response-step">Step 03</div>
+                        <h4>Alert & Notification</h4>
+                        <p>Real-time alerts are generated and distributed through multiple channels, providing detailed threat context and recommended response actions.</p>
+                    </div>
+                </div>
+                
+                <div class="response-item">
+                    <div class="response-content">
+                        <div class="response-step">Step 04</div>
+                        <h4>Response & Mitigation</h4>
+                        <p>Automated and manual response procedures are initiated to contain threats, patch vulnerabilities, and strengthen security posture.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Stats -->
+    <section class="stats-section">
+        <div class="section-container">
+            <h2 class="section-title">Security Metrics</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Continuous Monitoring</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">&lt; 5min</div>
+                    <div class="stat-label">Threat Detection</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">10K+</div>
+                    <div class="stat-label">Daily Threat Indicators</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Alert Accuracy</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Security Breaches</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">Fortify Your Defenses</h2>
+            <p class="cta-text">
+                Ready to implement enterprise-grade cybersecurity? Let's discuss your security requirements 
+                and design a comprehensive defense strategy tailored to your infrastructure.
+            </p>
+            <a href="#" class="cta-button" onclick="contactService('consultation')">Security Consultation</a>
+        </div>
+    </section>
+
+    <script>
+        // Contact functionality for specific services
+        function contactService(service) {
+            const serviceNames = {
+                'threat-intelligence': 'Threat Intelligence Platform',
+                'honeypot': 'Honeypot Network Services',
+                'vulnerability': 'Vulnerability Assessment',
+                'monitoring': 'Security Monitoring & Alerts',
+                'consultation': 'CyberSecurity Consultation'
+            };
+
+            const serviceDetails = {
+                'threat-intelligence': 'threat intelligence gathering, IOC analysis, and predictive threat modeling',
+                'honeypot': 'honeypot network deployment, attack analysis, and threat actor profiling',
+                'vulnerability': 'vulnerability scanning, penetration testing, and security assessment',
+                'monitoring': 'SIEM implementation, 24/7 monitoring, and incident response',
+                'consultation': 'comprehensive cybersecurity strategy and infrastructure design'
+            };
+
+            const subject = `${serviceNames[service]} Inquiry`;
+            const message = `Hi Johnathan,
+
+I'm interested in your ${serviceNames[service]} and would like to discuss:
+
+- ${serviceDetails[service]}
+- Implementation timeline and requirements
+- Pricing and service packages
+- Integration with existing infrastructure
+- Ongoing support and maintenance
+
+Could we schedule a consultation to review my cybersecurity needs?
+
+Best regards`;
+
+            window.location.href = `mailto:contact@johnaverse.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            const speed = 0.3;
+            
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * speed}px)`;
+            }
+        });
+
+        // Enhanced card interactions
+        document.querySelectorAll('.defense-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Stats counter animation
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach(stat => {
+                        if (!stat.classList.contains('animated')) {
+                            stat.classList.add('animated');
+                            stat.style.animation = 'pulse 0.6s ease-out';
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+    </script>
 </body>
 </html>
