@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Johnathan - Infrastructure & Security Engineer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Gotham', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.4;
+            color: #ffffff;
+            background: #000000;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 0 48px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 500;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .nav-links a:hover {
+            color: #3E6AE1;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="%23333" stroke-width="1" opacity="0.3"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(62, 106, 225, 0.1) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(48px, 8vw, 96px);
+            font-weight: 500;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            color: #a0a0a0;
+            margin-bottom: 48px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 16px 40px;
+            background: transparent;
+            color: #ffffff;
+            text-decoration: none;
+            border: 2px solid #ffffff;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .hero-cta:hover {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        /* Services Section */
+        .services-section {
+            background: #000000;
+        }
+
+        .service-hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+        }
+
+        .service-content {
+            max-width: 1400px;
+            width: 100%;
+            padding: 0 48px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .service-text {
+            z-index: 2;
+        }
+
+        .service-title {
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 500;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
+
+        .service-description {
+            font-size: 18px;
+            color: #a0a0a0;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .service-buttons {
+            display: flex;
+            gap: 24px;
+        }
+
+        .btn-primary {
+            padding: 16px 32px;
+            background: #3E6AE1;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            border: 2px solid #3E6AE1;
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: #3E6AE1;
+        }
+
+        .btn-secondary {
+            padding: 16px 32px;
+            background: transparent;
+            color: #ffffff;
+            text-decoration: none;
+            border: 2px solid #ffffff;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .service-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .service-icon {
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blockchain-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+        }
+
+        .cybersecurity-bg {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            box-shadow: 0 20px 60px rgba(240, 147, 251, 0.3);
+        }
+
+        .cloud-bg {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            box-shadow: 0 20px 60px rgba(79, 172, 254, 0.3);
+        }
+
+        .ai-bg {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            box-shadow: 0 20px 60px rgba(250, 112, 154, 0.3);
+        }
+
+        /* Alternate layout for odd sections */
+        .service-hero:nth-child(even) .service-content {
+            direction: rtl;
+        }
+
+        .service-hero:nth-child(even) .service-text {
+            direction: ltr;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 120px 48px;
+            background: #111111;
+            text-align: center;
+        }
+
+        .stats-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .stats-title {
+            font-size: 40px;
+            font-weight: 500;
+            margin-bottom: 80px;
+            letter-spacing: -1px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 60px;
+        }
+
+        .stat-item {
+            padding: 40px 20px;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 500;
+            color: #3E6AE1;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 120px 48px 60px;
+            background: #000000;
+            text-align: center;
+            border-top: 1px solid #333333;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-title {
+            font-size: 40px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .footer-text {
+            font-size: 18px;
+            color: #a0a0a0;
+            margin-bottom: 48px;
+            line-height: 1.6;
+        }
+
+        .footer-cta {
+            padding: 20px 48px;
+            background: #3E6AE1;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .footer-cta:hover {
+            background: #2E5AD1;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 24px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero, .service-hero {
+                padding: 0 24px;
+            }
+
+            .service-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .service-hero:nth-child(even) .service-content {
+                direction: ltr;
+            }
+
+            .service-buttons {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .stats-section, .footer {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .stats-grid {
+                gap: 40px;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Parallax effect */
+        .parallax {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+
+        /* Loading animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Glitch effect for icons */
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+
+        .service-icon:hover {
+            animation: glitch 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">JOHNAVERSE</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#blockchain">Blockchain</a></li>
+                <li><a href="#security">Security</a></li>
+                <li><a href="#cloud">Cloud</a></li>
+                <li><a href="#ai">AI</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero parallax" id="home">
+        <div class="hero-content animate-in">
+            <h1>JOHNATHAN</h1>
+            <div class="hero-subtitle">Infrastructure Engineer • Security Analyst • Cloud Architect</div>
+            <a href="#blockchain" class="hero-cta">Explore Solutions</a>
+        </div>
+    </section>
+
+    <!-- Services Sections -->
+    <div class="services-section">
+        <!-- Blockchain Infrastructure -->
+        <section class="service-hero" id="blockchain">
+            <div class="service-content">
+                <div class="service-text">
+                    <h2 class="service-title">Blockchain Infrastructure</h2>
+                    <p class="service-description">
+                        Advanced blockchain node maintenance and RPC service optimization. 
+                        Specialized in security analysis, infrastructure scaling, and 
+                        performance monitoring for enterprise-grade blockchain networks.
+                    </p>
+                    <div class="service-buttons">
+                        <a href="blockchain/index.html" class="btn-primary">Learn More</a>
+                        <a href="#" class="btn-secondary" onclick="openContactModal('blockchain')">Contact</a>
+                    </div>
+                </div>
+                <div class="service-visual">
+                    <div class="service-icon blockchain-bg">⛓️</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CyberSecurity -->
+        <section class="service-hero" id="security">
+            <div class="service-content">
+                <div class="service-text">
+                    <h2 class="service-title">CyberSecurity</h2>
+                    <p class="service-description">
+                        Advanced threat intelligence through custom laboratory environments. 
+                        Deployment of honeypots, vulnerability assessment tools, and 
+                        comprehensive monitoring systems for proactive security defense.
+                    </p>
+                    <div class="service-buttons">
+                        <a href="cybersecurity/index.html" class="btn-primary">Learn More</a>
+                        <a href="#" class="btn-secondary" onclick="openContactModal('cybersecurity')">Contact</a>
+                    </div>
+                </div>
+                <div class="service-visual">
+                    <div class="service-icon cybersecurity-bg">🛡️</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cloud Services -->
+        <section class="service-hero" id="cloud">
+            <div class="service-content">
+                <div class="service-text">
+                    <h2 class="service-title">Cloud Solutions</h2>
+                    <p class="service-description">
+                        Enterprise cloud infrastructure including secure storage systems, 
+                        VPN networks, proxy solutions, reverse proxy configurations, 
+                        and password management with consultation services.
+                    </p>
+                    <div class="service-buttons">
+                        <a href="cloud/index.html" class="btn-primary">Learn More</a>
+                        <a href="#" class="btn-secondary" onclick="openContactModal('cloud')">Contact</a>
+                    </div>
+                </div>
+                <div class="service-visual">
+                    <div class="service-icon cloud-bg">☁️</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Infrastructure -->
+        <section class="service-hero" id="ai">
+            <div class="service-content">
+                <div class="service-text">
+                    <h2 class="service-title">AI Infrastructure</h2>
+                    <p class="service-description">
+                        Next-generation AI infrastructure development and intelligent 
+                        automation systems. Pioneering solutions for machine learning 
+                        deployment, optimization, and scalable AI integration.
+                    </p>
+                    <div class="service-buttons">
+                        <a href="ai/index.html" class="btn-primary">Learn More</a>
+                        <a href="#" class="btn-secondary" onclick="openContactModal('ai')">Contact</a>
+                    </div>
+                </div>
+                <div class="service-visual">
+                    <div class="service-icon ai-bg">🤖</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <h2 class="stats-title">Performance Metrics</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Uptime Guarantee</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Monitoring</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">Deployments</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Security Breaches</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <section class="footer" id="contact">
+        <div class="footer-content">
+            <h2 class="footer-title">Ready to Scale?</h2>
+            <p class="footer-text">
+                Transform your infrastructure with cutting-edge blockchain, security, 
+                and cloud solutions. Let's build the future together.
+            </p>
+            <a href="#" class="footer-cta" onclick="openContactModal('general')">Start Project</a>
+        </div>
+    </section>
+
+    <script>
+        // Contact modal functionality
+        function openContactModal(service) {
+            let subject = '';
+            let message = '';
+            
+            switch(service) {
+                case 'blockchain':
+                    subject = 'Blockchain Infrastructure Inquiry';
+                    message = 'I\'m interested in your blockchain infrastructure and RPC services. Let\'s discuss my requirements.';
+                    break;
+                case 'cybersecurity':
+                    subject = 'CyberSecurity Solutions Inquiry';
+                    message = 'I need cybersecurity solutions and threat intelligence services. Can we schedule a consultation?';
+                    break;
+                case 'cloud':
+                    subject = 'Cloud Solutions Inquiry';
+                    message = 'I\'m looking for cloud infrastructure and storage solutions. Please provide more details.';
+                    break;
+                case 'ai':
+                    subject = 'AI Infrastructure Inquiry';
+                    message = 'I\'m interested in AI infrastructure and automation services. Let\'s explore possibilities.';
+                    break;
+                default:
+                    subject = 'General Inquiry';
+                    message = 'I\'d like to discuss potential collaboration opportunities.';
+            }
+            
+            window.location.href = `mailto:contact@johnaverse.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax scrolling effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.parallax');
+            const speed = 0.5;
+
+            parallaxElements.forEach(element => {
+                const yPos = -(scrolled * speed);
+                element.style.transform = `translateY(${yPos}px)`;
+            });
+
+            // Update navigation background
+            const nav = document.querySelector('nav');
+            if (scrolled > 100) {
+                nav.style.background = 'rgba(0, 0, 0, 0.95)';
+            } else {
+                nav.style.background = 'rgba(0, 0, 0, 0.8)';
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all service sections
+        document.querySelectorAll('.service-text, .service-visual, .stat-item').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
