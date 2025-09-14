@@ -140,6 +140,18 @@
             line-height: 1.6;
         }
 
+        .reliability-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: #000000;
+            padding: 12px 32px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+            margin-bottom: 40px;
+        }
+
         /* Services Grid */
         .services-container {
             max-width: 1400px;
@@ -361,6 +373,27 @@
             line-height: 1.6;
         }
 
+        .cloud-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: #ffffff;
+            padding: 12px 32px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background 0.3s, color 0.3s, transform 0.2s;
+        }
+
+        .cloud-badge:hover {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            color: #000000;
+            transform: translateY(-2px);
+        }
+
         .cta-button {
             padding: 16px 40px;
             background: #3E6AE1;
@@ -449,7 +482,7 @@
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
-            <div class="logo">JOHNAVERSE</div>
+            <a href="../index.html" class="logo">JOHNAVERSE</a>
             <ul class="nav-links">
                 <li><a href="#" onclick="history.back()" class="back-btn">← Back</a></li>
                 <li><a href="mailto:contact@johnaverse.com">Contact</a></li>
@@ -466,6 +499,7 @@
                 Comprehensive cloud infrastructure solutions designed for scalability, security, and performance. 
                 From basic hosting to advanced AI-powered surveillance systems.
             </p>
+            <a href="backup/index.html" class="cloud-badge">Learn more about 321 Backup</a>
         </div>
     </section>
 
