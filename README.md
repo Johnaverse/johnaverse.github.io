@@ -24,7 +24,7 @@ pnpm preview
 
 Add, edit or unpublish Markdown project entries in `src/content/projects`. Each entry declares a primary domain and optional related domains. Public entries link their repositories; private entries contain sanitized descriptions only. See [the content guide](docs/content-guide.md) for the field reference and examples, and [the evidence notes](docs/content-evidence.md) for attribution boundaries.
 
-Experience is edited in `src/data/experience.ts`, domain introductions in `src/data/domains.ts`. Hardware imagery is an illustrative rendering; [its generation prompt](docs/image-prompts.md) is recorded for maintenance.
+Experience is edited in `src/data/experience.ts`, domain introductions in `src/data/domains.ts`. The homepage and four domains use original conceptual 3D illustrations, with responsive WebP assets and decorative motion that respects the motion control and system preference. Project cards and detail pages include purpose-specific conceptual SVG workflows. [The graphics guide](docs/graphics.md) records assets and exact generation prompts; [the hardware prompt](docs/image-prompts.md) covers the local lab illustration.
 
 ## Deployment
 

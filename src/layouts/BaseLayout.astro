@@ -2,6 +2,7 @@
 import '@fontsource-variable/inter/wght.css';
 import '@fontsource-variable/space-grotesk/wght.css';
 import '../styles/global.css';
+import '../styles/graphics.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 interface Props { title: string; description: string; active?: string; accent?: string; noindex?: boolean; }
@@ -41,7 +42,7 @@ const person = { '@context': 'https://schema.org', '@type': 'Person', name: 'Joh
         .primary-nav { display: flex; position: static; width: 100%; flex-wrap: wrap; padding: 12px 0; }
       }
       .motion-toggle { display: none; }
-      .map-flow, .map-orbit { animation: none; }
+      .map-flow, .map-orbit, .art-glow { animation: none; }
     </style></noscript>
   </head>
   <body>
