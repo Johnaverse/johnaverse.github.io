@@ -1,21 +1,4 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Artwork from '../components/Artwork.astro';
-import HardwareLab from '../components/HardwareLab.astro';
-import Icon from '../components/Icon.astro';
-import { domains } from '../data/domains';
+import HomePage from '../components/HomePage.astro';
 ---
-<BaseLayout title="Johnaverse — Johnathan L. · Site Reliability Engineer" description="Johnathan L.’s engineering portfolio: cloud infrastructure, AI and automation, blockchain operations, and cybersecurity. Explore projects and relevant professional experience.">
-  <section class="home-hero container" id="home">
-    <div class="hero-copy" data-reveal><p class="eyebrow"><span class="status-dot"></span> JOHNATHAN L. / SITE RELIABILITY ENGINEER</p><h1>Reliable systems.<br /><span class="hero-emphasis">Built with intent.</span></h1><p class="hero-description">I build, secure, and operate infrastructure.<br class="desktop-break" /> From cloud platforms to blockchain networks,<br class="desktop-break" /> I turn complex systems into dependable foundations.</p><div class="hero-actions"><a class="button button-primary" href="#domains">Explore my work <Icon /></a><a class="button button-quiet" href="https://github.com/Johnaverse" target="_blank" rel="noopener noreferrer"><Icon name="github" size={18} /> GitHub profile <Icon name="external" size={16} /></a></div><div class="hero-personal"><span class="location-mark" aria-hidden="true">+</span><span>Toronto, Canada</span><span class="hero-divider"></span><span>Currently at Pinax Network</span></div></div>
-    <div class="hero-visual" data-reveal style="--reveal-delay:120ms"><Artwork subject="home" eager /><div class="hero-visual-note"><span class="small-bracket" aria-hidden="true">↳</span><span>Cloud. Automation. Blockchain. Security.<br /><strong>Connected through hands-on engineering.</strong></span></div></div>
-  </section>
-  <section class="career-strip" aria-label="Professional background"><div class="container"><span class="eyebrow">EXPERIENCE ACROSS</span><div><span>Pinax Network</span><span>Crypto.com</span><span>ASTRI</span><span>Hong Kong Telecom</span></div></div></section>
-  <section class="section container" id="domains">
-    <div class="section-heading" data-reveal><div><p class="eyebrow">FOUR DOMAINS / ONE ENGINEERING PRACTICE</p><h2>Depth where<br />it matters.</h2></div><p>Explore each discipline through the systems I work on, the decisions behind them, and the professional experience that shaped my approach.</p></div>
-    <div class="domain-grid">{domains.map(domain => <a class={`domain-card accent-${domain.accent}`} href={`/${domain.id}/`} id={domain.id === 'cybersecurity' ? 'security' : domain.id} data-reveal><Artwork subject={domain.id} variant="card" /><div class="domain-card-body"><div class="domain-card-top"><span class="eyebrow">DOMAIN / {domain.index}</span><span class="domain-card-arrow"><Icon name="external" size={25} /></span></div><h3>{domain.name}</h3><p>{domain.description}</p><div class="domain-card-bottom"><ul class="tag-list">{domain.tags.slice(0, 3).map(tag => <li>{tag}</li>)}</ul><span>Explore domain <Icon size={17} /></span></div></div></a>)}</div>
-  </section>
-  <section class="practice-section section"><div class="container practice-grid"><div data-reveal><p class="eyebrow">HOW I WORK</p><h2>Understand the system.<br /><span class="text-muted">Make it better.</span></h2><p class="practice-intro">My work sits at the intersection of reliability, automation, and security. I bring production operations and security analysis into the same conversation.</p><a class="text-link" href="/blockchain/">Explore my professional experience <Icon /></a></div><div class="practice-list"><article data-reveal><span>01</span><div><h3>Build with a clear purpose.</h3><p>Start with the workload, its constraints, and the people who depend on it. Choose the infrastructure that fits.</p></div></article><article data-reveal><span>02</span><div><h3>Make the system observable.</h3><p>Use monitoring, clear runbooks, and incident investigation to understand how systems behave in practice.</p></div></article><article data-reveal><span>03</span><div><h3>Automate with boundaries.</h3><p>Apply code, deployment workflows, and AI tools thoughtfully, with security and operational control in view.</p></div></article></div></div></section>
-  <HardwareLab teaser />
-  <section class="education-line container"><span class="eyebrow">THE FOUNDATION</span><p>BSc (Hons) Information Security <span>·</span> The Hong Kong Polytechnic University <span>·</span> 2019</p></section>
-</BaseLayout>
+<HomePage locale="en" />

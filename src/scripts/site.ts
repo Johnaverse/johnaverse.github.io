@@ -6,6 +6,8 @@ const setMenu = (open: boolean) => {
 };
 menu?.addEventListener('click', () => setMenu(menu.getAttribute('aria-expanded') !== 'true'));
 nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+const languageSelect = document.querySelector<HTMLSelectElement>('[data-language-select]');
+languageSelect?.addEventListener('change', () => { window.location.assign(languageSelect.value); });
 nav?.addEventListener('focusout', event => {
   if (event.relatedTarget instanceof Node && !nav.contains(event.relatedTarget) && !menu?.contains(event.relatedTarget)) setMenu(false);
 });
@@ -27,7 +29,7 @@ const applyMotion = () => {
   document.documentElement.dataset.motion = stop ? 'paused' : 'running';
   if (motionButton) {
     motionButton.disabled = reduceMotion.matches;
-    motionButton.textContent = reduceMotion.matches ? 'Reduced motion' : paused ? 'Resume motion' : 'Pause motion';
+    motionButton.textContent = reduceMotion.matches ? motionButton.dataset.reducedText ?? 'Reduced motion' : paused ? motionButton.dataset.resumeText ?? 'Resume motion' : motionButton.dataset.pauseText ?? 'Pause motion';
   }
   if (stop) document.getAnimations().forEach(animation => { if (animation.effect instanceof KeyframeEffect && animation.effect.target instanceof Element && animation.effect.target.hasAttribute('data-reveal')) animation.finish(); });
 };

@@ -1,0 +1,30 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPublishedProjects, projectHref } from '../lib/projects';
+import { domains } from '../data/domains';
+import Icon from './Icon.astro';
+import ProjectVisual from './ProjectVisual.astro';
+import { domainMessage, localizedPath, localizedDomain, messages, type Locale } from '../i18n';
+import { localizedProject } from '../i18n/projects';
+interface Props { project: CollectionEntry<'projects'>; locale?: Locale; }
+const { project, locale = 'en' } = Astro.props;
+const { data } = project;
+const translation = localizedProject(project.id,locale);
+const text = messages(locale);
+const domain = localizedDomain(domains.find(item => item.id === data.primaryDomain)!,locale);
+const title = translation?.title ?? data.title;
+const summary = translation?.summary ?? data.summary;
+const rendered = locale === 'en' ? await render(project) : undefined;
+const Content = rendered?.Content;
+const related = await getPublishedProjects();
+const more = related.filter(item => item.id !== project.id && (item.data.primaryDomain === domain.id || item.data.relatedDomains.includes(domain.id))).slice(0, 3);
+---
+<BaseLayout title={`${title} — Johnathan L. · Johnaverse`} description={summary} active={domain.id} accent={domain.accent} locale={locale}>
+  <article class="project-detail container"><header class="project-detail-header" data-reveal><a class="back-link" href={localizedPath(`/${domain.id}/#projects`,locale)}><span aria-hidden="true">←</span> {domain.name}</a><p class="eyebrow">{data.visibility === 'public' ? text.projectPublic : text.projectOverview}{data.status ? ` / ${text.status[data.status].toUpperCase()}` : ''}</p><h1>{title}</h1><p class="project-lead">{summary}</p><ul class="tag-list">{data.tags.map(tag => <li>{tag}</li>)}</ul></header>
+    <div class="project-detail-visual" data-reveal><ProjectVisual project={project} locale={locale} title={title} /></div>
+    <div class="project-detail-grid"><aside class="project-sidebar"><div><p class="eyebrow">{text.projectDomain}</p><a href={localizedPath(`/${domain.id}/`,locale)}>{domainMessage(locale,domain.id)} <Icon name="external" size={16} /></a></div><div><p class="eyebrow">{text.contribution}</p><p>{data.attribution === 'original' ? text.engineeringContribution : data.attribution === 'integration' ? text.integrationContribution : text.genericContribution}</p></div>{data.repositoryUrl && <div><p class="eyebrow">{text.source}</p><a href={data.repositoryUrl} target="_blank" rel="noopener noreferrer">{text.publicSource} <Icon name="external" size={16} /></a></div>}{data.relatedDomains.length > 0 && <div><p class="eyebrow">{text.alsoRelevant}</p>{data.relatedDomains.map(id => <a href={localizedPath(`/${id}/`,locale)}>{domainMessage(locale,id)} <Icon name="external" size={16} /></a>)}</div>}</aside>
+      <div class="prose">{locale === 'en' && Content ? <Content /> : translation?.sections.map(section => <section><h2>{section.heading}</h2>{section.paragraphs.map(paragraph => <p>{paragraph}</p>)}</section>)}{data.evidence.length > 0 && <section class="evidence-links"><h2>{text.evidenceHeading}</h2><ul>{data.evidence.map((url, i) => <li><a href={url} target="_blank" rel="noopener noreferrer" aria-label={`${text.supportingSource} ${i + 1} for ${title} (opens in a new tab)`}>{data.evidence.length === 1 ? text.supportingSource : `${text.supportingSource} ${i + 1}`} <Icon name="external" size={16} /></a></li>)}</ul></section>}</div>
+    </div></article>
+  {more.length > 0 && <section class="related-section container"><p class="eyebrow">{text.projects}</p><div>{more.map(item => <a href={localizedPath(projectHref(item),locale)}>{localizedProject(item.id,locale)?.title ?? item.data.title}<Icon name="external" /></a>)}</div></section>}
+</BaseLayout>

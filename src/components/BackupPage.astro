@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from './Icon.astro';
+import { localeRoot, messages, type Locale } from '../i18n';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const text = messages(locale);
+---
+<BaseLayout title={`${text.backupTitle} — Johnaverse`} description={text.backupDescription} active="cloud" locale={locale}>
+  <article class="container project-detail"><header class="project-detail-header" data-reveal><a class="back-link" href={`${localeRoot(locale)}cloud/`}><span aria-hidden="true">←</span> {text.backupBack}</a><p class="eyebrow">{text.backupEyebrow}</p><h1>{text.backupHeadline}</h1><p class="project-lead">{text.backupLead}</p></header><div class="backup-grid">{text.backupCards.map(card => <section class="project-card" data-reveal><p class="eyebrow">{card.kicker}</p><h2>{card.title}</h2><p>{card.body}</p></section>)}</div><div class="prose backup-summary"><h2>{text.backupSummary}</h2><p>{text.backupSummaryBody}</p><a class="text-link" href={`${localeRoot(locale)}cloud/#projects`}>{text.backupExplore} <Icon /></a></div></article>
+</BaseLayout>
