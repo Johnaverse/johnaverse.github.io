@@ -1,7 +1,9 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { messages, type Locale } from '../i18n';
+import { localizedWorkflowStages } from '../i18n/projects';
 
-interface Props { project: CollectionEntry<'projects'>; }
+interface Props { project: CollectionEntry<'projects'>; locale?: Locale; title?: string; }
 interface Stage { label: string; icon: keyof typeof icons; }
 interface Diagram { stages: Stage[]; edges?: [number, number][]; }
 
@@ -62,12 +64,15 @@ const diagrams: Record<string, Diagram> = {
   'resilience-and-update-policies': { stages: [{ label: 'Services', icon: 'node' }, { label: 'Backups', icon: 'backup' }, { label: 'Grafana', icon: 'metrics' }, { label: 'Updates', icon: 'update' }], edges: [[0, 1], [0, 2], [0, 3]] },
 };
 
-const { project } = Astro.props;
+const { project, locale = 'en', title = project.data.title } = Astro.props;
+const text = messages(locale);
 const diagram = diagrams[project.id] ?? {
   stages: [{ label: 'Context', icon: 'sources' }, { label: 'Approach', icon: 'tool' }, { label: 'Outcome', icon: 'response' }],
 } satisfies Diagram;
 const centers = diagram.stages.length === 4 ? [70, 210, 350, 490] : [90, 280, 470];
 const edges = diagram.edges ?? diagram.stages.slice(1).map((_, index) => [index, index + 1] as [number, number]);
+const translatedLabels = localizedWorkflowStages(project.id,locale);
+const stages = diagram.stages.map((stage,index) => ({ ...stage, label: translatedLabels?.[index] ?? stage.label }));
 const routes = edges.map(([from, to]) => {
   const start = centers[from] + 43;
   const end = centers[to] - 43;
@@ -79,10 +84,10 @@ const routes = edges.map(([from, to]) => {
     arrow: skip ? `M${end - 7} 91 L${end} 102 L${end + 3} 89` : `M${end - 8} 98 L${end} 102 L${end - 8} 106`,
   };
 });
-const description = `Conceptual view of ${project.data.title}: ${diagram.stages.map(stage => stage.label).join(', ')}.`;
+const description = `${text.workflowDescription}: ${title}; ${stages.map(stage => stage.label).join(', ')}.`;
 ---
 <div class="project-visual" data-ambient>
-  <span class="project-visual-caption" aria-hidden="true">Concept / workflow</span>
+  <span class="project-visual-caption" aria-hidden="true">{text.workflowCaption}</span>
   <svg class="project-visual-svg" viewBox="0 0 560 210" width="560" height="210" role="img" aria-label={description} focusable="false" style="display:block;width:100%;height:auto;overflow:visible">
     <g aria-hidden="true">
       <rect x="1" y="1" width="558" height="208" rx="12" fill="currentColor" opacity=".025" />
@@ -99,7 +104,7 @@ const description = `Conceptual view of ${project.data.title}: ${diagram.stages.
       <g fill="none" stroke="var(--accent)" stroke-opacity=".65" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
         {routes.map(route => <path d={route.arrow} />)}
       </g>
-      {diagram.stages.map((stage, index) => (
+      {stages.map((stage, index) => (
         <g transform={`translate(${centers[index]}, 102)`}>
           <rect x="-43" y="-42" width="86" height="84" rx="15" fill="currentColor" fill-opacity=".045" stroke="currentColor" stroke-opacity=".16" />
           <path d="M-30-42h60" fill="none" stroke="var(--accent)" stroke-opacity=".55" stroke-width="1.4" />

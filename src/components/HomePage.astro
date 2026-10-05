@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Artwork from './Artwork.astro';
+import HardwareLab from './HardwareLab.astro';
+import Icon from './Icon.astro';
+import { domains } from '../data/domains';
+import { domainMessage, localeRoot, localizedDomain, messages, type Locale } from '../i18n';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const text = messages(locale);
+const domainData = domains.map(domain => localizedDomain(domain,locale));
+const title = locale === 'en' ? 'Johnaverse — Johnathan L. · Site Reliability Engineer' : `${text.homeHeadline} — Johnathan L. · Johnaverse`;
+const description = text.homeIntro;
+---
+<BaseLayout title={title} description={description} locale={locale}>
+  <section class="home-hero container" id="home">
+    <div class="hero-copy" data-reveal><p class="eyebrow"><span class="status-dot"></span> {text.homeEyebrow}</p><h1>{text.homeHeadline}<br /><span class="hero-emphasis">{text.homeAccent}</span></h1><p class="hero-description">{text.homeIntro}</p><div class="hero-actions"><a class="button button-primary" href="#domains">{text.explore} <Icon /></a><a class="button button-quiet" href="https://github.com/Johnaverse" target="_blank" rel="noopener noreferrer"><Icon name="github" size={18} /> {text.github} <Icon name="external" size={16} /></a></div><div class="hero-personal"><span class="location-mark" aria-hidden="true">+</span><span>{text.toronto}</span><span class="hero-divider"></span><span>{text.currentRole}</span></div></div>
+    <div class="hero-visual" data-reveal style="--reveal-delay:120ms"><Artwork subject="home" eager locale={locale} /><div class="hero-visual-note"><span class="small-bracket" aria-hidden="true">↳</span><span>{text.conceptHome}<br /><strong>{text.conceptHomeNote}</strong></span></div></div>
+  </section>
+  <section class="career-strip" aria-label={text.experience}><div class="container"><span class="eyebrow">{text.experienceAcross}</span><div><span>Pinax Network</span><span>Crypto.com</span><span>ASTRI</span><span>Hong Kong Telecom</span></div></div></section>
+  <section class="section container" id="domains">
+    <div class="section-heading" data-reveal><div><p class="eyebrow">{text.domainsEyebrow}</p><h2>{text.domainsHeading}</h2></div><p>{text.domainsIntro}</p></div>
+    <div class="domain-grid">{domainData.map(domain => <a class={`domain-card accent-${domain.accent}`} href={`${localeRoot(locale)}${domain.id}/`} id={domain.id === 'cybersecurity' ? 'security' : domain.id} data-reveal><Artwork subject={domain.id} variant="card" locale={locale} /><div class="domain-card-body"><div class="domain-card-top"><span class="eyebrow">{text.domainExplore.toUpperCase()} / {domain.index}</span><span class="domain-card-arrow"><Icon name="external" size={25} /></span></div><h3>{domainMessage(locale,domain.id)}</h3><p>{domain.description}</p><div class="domain-card-bottom"><ul class="tag-list">{domain.tags.slice(0, 3).map(tag => <li>{tag}</li>)}</ul><span>{text.domainExplore} <Icon size={17} /></span></div></div></a>)}</div>
+  </section>
+  <section class="practice-section section"><div class="container practice-grid"><div data-reveal><p class="eyebrow">{text.working}</p><h2>{text.workingHeading}<br /><span class="text-muted">{text.workingAccent}</span></h2><p class="practice-intro">{text.workingIntro}</p><a class="text-link" href={`${localeRoot(locale)}blockchain/`}>{text.relevantExperience} <Icon /></a></div><div class="practice-list">{text.practices.map((practice, index) => <article data-reveal><span>0{index + 1}</span><div><h3>{practice.title}</h3><p>{practice.body}</p></div></article>)}</div></div></section>
+  <HardwareLab teaser locale={locale} />
+  <section class="education-line container"><span class="eyebrow">{text.foundation}</span><p>{text.degree} <span>·</span> {text.university} <span>·</span> 2019</p></section>
+</BaseLayout>

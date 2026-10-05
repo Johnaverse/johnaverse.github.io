@@ -1,5 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
+import { localeIds, messages } from '../i18n';
+const notFoundCopy = Object.fromEntries(localeIds.map(locale => {
+  const text = messages(locale);
+  return [locale, { title: text.notFoundTitle, body: text.notFoundBody, eyebrow: text.notFoundEyebrow, backTo: text.backTo, skip: text.skip, language: text.language, home: text.home, github: text.github, navLabel: text.navLabel, menu: text.menu, connect: text.connect, domains: text.domains, homeFooter: text.homeFooter, footerHeading: text.footerHeading, footerAccent: text.footerAccent, toronto: text.toronto, motionPause: text.motionPause, motionResume: text.motionResume, motionReduced: text.motionReduced, copyright: text.copyright }];
+}));
 ---
-<BaseLayout noindex title="Page not found — Johnaverse" description="Find your way back to Johnathan L.’s cloud, AI, blockchain, and cybersecurity portfolio."><section class="container not-found"><p class="eyebrow">404 / ROUTE NOT FOUND</p><h1>A missing connection.</h1><p>This page has moved or the address is incomplete. Start with the four engineering domains.</p><a href="/" class="button button-primary">Back to Johnaverse <Icon /></a></section></BaseLayout>
+<BaseLayout noindex title="Page not found — Johnaverse" description="Find your way back to Johnathan L.’s cloud, AI, blockchain, and cybersecurity portfolio."><section class="container not-found" data-localized-404 data-404-copy={JSON.stringify(notFoundCopy)}><p class="eyebrow" data-404-eyebrow>404 / ROUTE NOT FOUND</p><h1 data-404-title>A missing connection.</h1><p data-404-body>This page has moved or the address is incomplete. Start with the four engineering domains.</p><a href="/" class="button button-primary" data-404-home>Back to Johnaverse <Icon /></a></section></BaseLayout>

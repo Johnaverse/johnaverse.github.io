@@ -1,0 +1,10 @@
+---
+import { getPublishedProjects } from '../../../../lib/projects';
+import ProjectDetail from '../../../../components/ProjectDetail.astro';
+import { localeIds, isPrefixedLocale, type Locale } from '../../../../i18n';
+import type { CollectionEntry } from 'astro:content';
+interface Props { project: CollectionEntry<'projects'>; locale: Locale; }
+export async function getStaticPaths() { const projects = await getPublishedProjects(); return localeIds.filter(isPrefixedLocale).flatMap(locale => projects.map(project => ({ params: { locale, domain: project.data.primaryDomain, slug: project.id }, props: { project, locale } }))); }
+const { project, locale } = Astro.props;
+---
+<ProjectDetail project={project} locale={locale} />

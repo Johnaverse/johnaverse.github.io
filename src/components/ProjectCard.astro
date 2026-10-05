@@ -1,17 +1,23 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { projectHref } from '../lib/projects';
+import { localizedPath, messages, type Locale } from '../i18n';
+import { localizedProject } from '../i18n/projects';
 import Icon from './Icon.astro';
 import ProjectVisual from './ProjectVisual.astro';
-interface Props { project: CollectionEntry<'projects'>; index?: number; }
-const { project, index = 0 } = Astro.props;
+interface Props { project: CollectionEntry<'projects'>; index?: number; locale?: Locale; }
+const { project, index = 0, locale = 'en' } = Astro.props;
 const { data } = project;
+const translation = localizedProject(project.id,locale);
+const text = messages(locale);
+const title = translation?.title ?? data.title;
+const summary = translation?.summary ?? data.summary;
 ---
 <article class="project-card" data-reveal style={`--reveal-delay:${(index % 2) * 70}ms`}>
-  <ProjectVisual project={project} />
-  <div class="project-card-top"><span class="eyebrow">{data.visibility === 'public' ? 'PUBLIC PROJECT' : 'PROJECT OVERVIEW'}</span>{data.status && <span class="project-status"><span></span>{data.status}</span>}</div>
-  <h3><a href={projectHref(project)}>{data.title}<Icon name="external" size={24} /></a></h3>
-  <p>{data.summary}</p>
+  <ProjectVisual project={project} locale={locale} title={title} />
+  <div class="project-card-top"><span class="eyebrow">{data.visibility === 'public' ? text.projectPublic : text.projectOverview}</span>{data.status && <span class="project-status"><span></span>{text.status[data.status]}</span>}</div>
+  <h3><a href={localizedPath(projectHref(project),locale)}>{title}<Icon name="external" size={24} /></a></h3>
+  <p>{summary}</p>
   <ul class="tag-list" aria-label="Technologies">{data.tags.slice(0, 4).map(tag => <li>{tag}</li>)}</ul>
-  <div class="project-card-bottom"><a href={projectHref(project)} aria-label={`Explore ${data.title}`}>Explore project <Icon size={17} /></a>{data.repositoryUrl && <a class="project-source" href={data.repositoryUrl} target="_blank" rel="noopener noreferrer" aria-label={`View ${data.title} source on GitHub (opens in a new tab)`}><Icon name="github" size={17} /><span>Source</span></a>}</div>
+  <div class="project-card-bottom"><a href={localizedPath(projectHref(project),locale)} aria-label={`${text.projectExplore}: ${title}`}>{text.projectExplore} <Icon size={17} /></a>{data.repositoryUrl && <a class="project-source" href={data.repositoryUrl} target="_blank" rel="noopener noreferrer" aria-label={`${text.publicSource}: ${title} (opens in a new tab)`}><Icon name="github" size={17} /><span>{text.source}</span></a>}</div>
 </article>
