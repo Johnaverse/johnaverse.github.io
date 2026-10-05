@@ -1,0 +1,16 @@
+---
+import { domains } from '../data/domains';
+import Icon from './Icon.astro';
+const { active = 'home' } = Astro.props;
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="wordmark" href="/" aria-label="Johnaverse home"><span class="brand-mark" aria-hidden="true">j<span>v</span><i></i></span><span>johnaverse<span class="wordmark-dot">.</span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav"><span>Menu</span><span class="menu-lines" aria-hidden="true"></span></button>
+    <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation">
+      {domains.map(domain => <a href={`/${domain.id}/`} aria-current={active === domain.id ? 'page' : undefined}>{domain.shortName}</a>)}
+      <a class="nav-github" href="https://github.com/Johnaverse" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile (opens in a new tab)"><Icon name="github" size={18} /><span>GitHub</span></a>
+      <a class="nav-contact" href="#contact">Let’s connect <Icon name="external" size={16} /></a>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.johnaverse.cc/sitemap-index.xml

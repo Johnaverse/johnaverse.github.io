@@ -1,0 +1,17 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { projectHref } from '../lib/projects';
+import Icon from './Icon.astro';
+import ProjectVisual from './ProjectVisual.astro';
+interface Props { project: CollectionEntry<'projects'>; index?: number; }
+const { project, index = 0 } = Astro.props;
+const { data } = project;
+---
+<article class="project-card" data-reveal style={`--reveal-delay:${(index % 2) * 70}ms`}>
+  <ProjectVisual project={project} />
+  <div class="project-card-top"><span class="eyebrow">{data.visibility === 'public' ? 'PUBLIC PROJECT' : 'PROJECT OVERVIEW'}</span>{data.status && <span class="project-status"><span></span>{data.status}</span>}</div>
+  <h3><a href={projectHref(project)}>{data.title}<Icon name="external" size={24} /></a></h3>
+  <p>{data.summary}</p>
+  <ul class="tag-list" aria-label="Technologies">{data.tags.slice(0, 4).map(tag => <li>{tag}</li>)}</ul>
+  <div class="project-card-bottom"><a href={projectHref(project)} aria-label={`Explore ${data.title}`}>Explore project <Icon size={17} /></a>{data.repositoryUrl && <a class="project-source" href={data.repositoryUrl} target="_blank" rel="noopener noreferrer" aria-label={`View ${data.title} source on GitHub (opens in a new tab)`}><Icon name="github" size={17} /><span>Source</span></a>}</div>
+</article>
