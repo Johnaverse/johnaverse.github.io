@@ -1,0 +1,10 @@
+---
+import { experiences } from '../data/experience';
+import type { DomainId } from '../data/domains';
+interface Props { domain: DomainId; }
+const { domain } = Astro.props;
+const relevant = experiences.filter(experience => experience.domains[domain]?.length);
+---
+<ol class="experience-list">
+  {relevant.map(experience => <li class="experience-item" data-reveal><div class="experience-meta"><span class="experience-period">{experience.period}</span><span class="experience-employer">{experience.employer}</span></div><div class="experience-content"><h3>{experience.title}</h3><ul>{experience.domains[domain]?.map(point => <li>{point}</li>)}</ul></div></li>)}
+</ol>

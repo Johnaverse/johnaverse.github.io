@@ -1,0 +1,19 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getPublishedProjects, projectHref } from '../../../lib/projects';
+import { domains } from '../../../data/domains';
+import Icon from '../../../components/Icon.astro';
+export async function getStaticPaths() { return (await getPublishedProjects()).map(project => ({ params: { domain: project.data.primaryDomain, slug: project.id }, props: { project } })); }
+interface Props { project: CollectionEntry<'projects'>; }
+const { project } = Astro.props;
+const { data } = project;
+const domain = domains.find(item => item.id === data.primaryDomain)!;
+const { Content } = await render(project);
+const related = await getPublishedProjects();
+const more = related.filter(item => item.id !== project.id && (item.data.primaryDomain === domain.id || item.data.relatedDomains.includes(domain.id))).slice(0, 3);
+---
+<BaseLayout title={`${data.title} — Johnathan L. · Johnaverse`} description={data.summary} active={domain.id} accent={domain.accent}>
+  <article class="project-detail container"><header class="project-detail-header" data-reveal><a class="back-link" href={`/${domain.id}/#projects`}><span aria-hidden="true">←</span> {domain.name}</a><p class="eyebrow">{data.visibility === 'public' ? 'PUBLIC PROJECT' : 'PROJECT OVERVIEW'} / {data.status.toUpperCase()}</p><h1>{data.title}</h1><p class="project-lead">{data.summary}</p><ul class="tag-list">{data.tags.map(tag => <li>{tag}</li>)}</ul></header><div class="project-detail-grid"><aside class="project-sidebar"><div><p class="eyebrow">DOMAIN</p><a href={`/${domain.id}/`}>{domain.name} <Icon name="external" size={16} /></a></div><div><p class="eyebrow">CONTRIBUTION</p><p>{data.attribution === 'original' ? 'Development & engineering' : data.attribution === 'integration' ? 'Integration & tooling' : 'Contribution'}</p></div>{data.repositoryUrl && <div><p class="eyebrow">SOURCE</p><a href={data.repositoryUrl} target="_blank" rel="noopener noreferrer">View on GitHub <Icon name="external" size={16} /></a></div>}{data.relatedDomains.length > 0 && <div><p class="eyebrow">ALSO RELEVANT TO</p>{data.relatedDomains.map(id => <a href={`/${id}/`}>{domains.find(item => item.id === id)?.name} <Icon name="external" size={16} /></a>)}</div>}</aside><div class="prose"><Content />{data.evidence.length > 0 && <section class="evidence-links"><h2>Explore the supporting material</h2><ul>{data.evidence.map((url, i) => <li><a href={url} target="_blank" rel="noopener noreferrer" aria-label={`Supporting source ${i + 1} for ${data.title} (opens in a new tab)`}>{data.evidence.length === 1 ? 'Supporting source' : `Supporting source ${i + 1}`} <Icon name="external" size={16} /></a></li>)}</ul></section>}</div></div></article>
+  {more.length > 0 && <section class="related-section container"><p class="eyebrow">RELATED PROJECTS</p><div>{more.map(item => <a href={projectHref(item)}>{item.data.title}<Icon name="external" /></a>)}</div></section>}
+</BaseLayout>

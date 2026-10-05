@@ -1,0 +1,8 @@
+---
+const hardware = [{ name: 'HP ZGX Nano G1n', kind: 'AI compute' }, { name: 'Mac Studio M4 Max', kind: 'Local workstation' }, { name: 'Synology DS1618+', kind: 'Storage & backup' }];
+---
+<section class="lab-section section container" id="lab">
+  <div class="section-heading" data-reveal><div><p class="eyebrow">THE LOCAL SIDE OF THE CLOUD</p><h2>A lab to build.<br />A place to learn.</h2></div><p>Local compute and storage complement cloud services. This is where I explore model serving, infrastructure tooling, and recovery workflows.</p></div>
+  <figure class="lab-figure" data-reveal><img src="/images/hardware-lab.webp" alt="Illustration of a compact HP AI station, a Mac Studio, and a six-bay Synology NAS on dark display plinths" width="1774" height="887" loading="lazy" decoding="async" /><figcaption>Illustrative hardware composition · model types in my local environment</figcaption></figure>
+  <div class="hardware-list">{hardware.map((item, i) => <div><span class="eyebrow">0{i + 1} / {item.kind}</span><h3>{item.name}</h3></div>)}</div>
+</section>
