@@ -3,6 +3,9 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isSafePublicUrl } from '../src/lib/project-schema.ts';
+import { assistantLocales, isAssistantIndex } from '../src/lib/assistant-types.ts';
+import { retrieveSources } from '../src/lib/assistant-search.ts';
+import { assistantCopy } from '../src/i18n/assistant.ts';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
@@ -191,6 +194,30 @@ for (const [file, document] of documents) {
 }
 const robots = textFiles.get(path.join(dist, 'robots.txt'));
 if (!robots?.includes(`Sitemap: ${site}/sitemap-index.xml`)) errors.push('robots.txt must reference the canonical sitemap index');
+
+// Chat knowledge must cover every indexable page and cite real anchors in the same language.
+for (const locale of assistantLocales) {
+  const file = path.join(dist, 'assistant', `${locale}.json`);
+  let index;
+  try { index = JSON.parse(textFiles.get(file)); } catch { issue(file, 'missing or invalid assistant index'); continue; }
+  if (!isAssistantIndex(index, locale)) { issue(file, 'assistant index fails its public schema'); continue; }
+  const expected = new Set([...documents].filter(([, document]) => {
+    const lang = document.text.match(/<html\b[^>]*\blang=["']([^"']+)["']/i)?.[1];
+    return lang === locale && !/<meta\b(?=[^>]*\bname\s*=\s*["']robots["'])(?=[^>]*\bcontent\s*=\s*["'][^"']*noindex)[^>]*>/i.test(document.text);
+  }).map(([file]) => file));
+  const covered = new Set();
+  for (const source of index.sources) {
+    const url = new URL(source.url, site);
+    const target = await resolveInternal(url);
+    if (!expected.has(target)) { issue(file, `assistant cites an absent, excluded or wrong-language page: ${source.url}`); continue; }
+    if (url.hash && !documents.get(target).ids.has(decodeURIComponent(url.hash.slice(1)))) issue(file, `assistant cites a missing anchor: ${source.url}`);
+    covered.add(target);
+  }
+  if (index.pages !== expected.size || covered.size !== expected.size) issue(file, 'assistant does not cover all published pages');
+  const prompts = assistantCopy[locale].prompts;
+  if (!retrieveSources(index, prompts[1])[0]?.url.endsWith('/cloud/backup/')) issue(file, 'backup starter question must find the 3-2-1 page');
+  if (!retrieveSources(index, prompts[3])[0]?.url.endsWith('/#contact')) issue(file, 'contact starter question must find the published contact details');
+}
 
 // The schema validates frontmatter during build. These checks cover generated routes and private prose.
 const contentDirectory = path.join(root, 'src', 'content', 'projects');

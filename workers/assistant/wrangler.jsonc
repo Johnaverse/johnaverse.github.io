@@ -1,0 +1,11 @@
+{
+  "name": "johnaverse-website-assistant",
+  "main": "index.ts",
+  "compatibility_date": "2026-10-05",
+  "vars": {
+    "SITE_ORIGIN": "https://www.johnaverse.cc",
+    "ALLOWED_ORIGINS": "https://www.johnaverse.cc,https://johnaverse.cc"
+  },
+  "ratelimits": [{ "name": "CHAT_RATE_LIMITER", "namespace_id": "1001", "simple": { "limit": 12, "period": 60 } }],
+  "observability": { "enabled": false }
+}
