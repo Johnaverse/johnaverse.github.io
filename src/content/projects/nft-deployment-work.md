@@ -5,7 +5,6 @@ primaryDomain: blockchain
 relatedDomains: [cybersecurity]
 visibility: private
 attribution: integration
-status: completed
 tags: [NFT deployments, Blockchain, Smart contracts]
 order: 13
 featured: false

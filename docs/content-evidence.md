@@ -5,10 +5,10 @@ This document is an internal maintenance reference for the portfolio copy. It is
 ## Source rules
 
 - Employment titles, periods, and domain-specific responsibilities come from the two owner-supplied CVs. The experience data records `source: 'CV'`; this is provenance, not independent verification.
-- Private project overviews use the owner's authorized descriptions. Their evidence arrays are empty and they have no repository URLs.
+- Private project overviews use the owner's authorized descriptions. Inspected source also supports the architectural descriptions of OCI provisioning, Fleet/Flux reconciliation, Docker Terraform roots, and Argo Workflows templates. Their evidence arrays are empty and they have no repository URLs.
 - The published content excludes personal contact and immigration details from the CVs, private repository links, endpoints, infrastructure identifiers, credentials, raw configuration, unsupported scale or ranking claims, and historical certification claims presented as current.
 - Diagrams describe conceptual workflows, not the topology of a deployed environment.
-- The ambiguous technology name supplied during planning has been omitted rather than interpreted as another product.
+- Argo Workflows is identified from inspected repository definitions, including WorkflowTemplate resources and Argo Workflows configuration. It is not inferred solely from the ambiguous technology spelling supplied during planning.
 
 ## Public project evidence
 

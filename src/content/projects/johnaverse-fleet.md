@@ -1,12 +1,12 @@
 ---
 title: "Johnaverse Fleet & Docker Terraform"
-summary: "My infrastructure projects for managing fleet changes and expressing container resources through Terraform."
+summary: "Flux-based GitOps for my Kubernetes fleet, alongside independent Terraform roots for Docker services."
 primaryDomain: cloud
 relatedDomains: [ai]
 visibility: private
 attribution: original
 status: active
-tags: [Johnaverse Fleet, Docker, Terraform, Configuration management]
+tags: [Johnaverse Fleet, FluxCD, Docker, Terraform]
 order: 6
 featured: false
 published: true
@@ -19,13 +19,15 @@ Cloud resources and containers are only part of an environment. The machines run
 
 ## My approach
 
-Johnaverse Fleet is the fleet-management part of this work. I use it for deliberate changes to my environment, with attention to when updates happen and how they fit the workloads involved.
+Johnaverse Fleet keeps Kubernetes configuration in Git. Flux reconciles each environment from its own configuration path, so a change has a defined destination rather than being applied indiscriminately across the fleet. Some workloads use image automation that proposes image-tag changes through review branches.
 
-johnaverse-docker-tf applies infrastructure-as-code ideas to Docker resources. Together, the projects let me work on host and container concerns without treating each change as an isolated manual task.
+johnaverse-docker-tf manages Docker services through independent Terraform roots. Shared networks are configured before the services that depend on them, and each service has its own initialization, validation, and plan workflow. Terraform is the current source of truth for this repository; the earlier Compose-based deployment model has been retired.
+
+These projects use different control loops. Flux reconciles Kubernetes configuration from Git; the Docker workflow uses explicit Terraform plans and applies. The common goal is to make the intended state and the scope of a change understandable before it reaches a workload.
 
 ## My contribution
 
-I build and maintain the configuration and automation around my own fleet and container environment. My focus is practical: understandable changes, a repeatable process, and a system I can continue to operate as the projects evolve.
+I maintain the environment configuration, workload definitions, and service dependencies around my own fleet and container environment. For stateful Docker changes, the documented workflow calls for a recoverable backup and rollback path before applying the plan, followed by service verification.
 
 ## Current scope
 

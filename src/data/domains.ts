@@ -85,7 +85,7 @@ export const domains: Domain[] = [
       {
         title: 'Development & QA',
         description: 'I use AI alongside code review and end-to-end checks, treating generated changes as engineering work that still needs validation.',
-        tools: ['Codex', 'Claude', 'GitHub Actions', 'End-to-end QA'],
+        tools: ['Codex', 'Claude', 'Argo Workflows', 'GitHub Actions', 'FluxCD', 'End-to-end QA'],
       },
     ],
     diagram: [

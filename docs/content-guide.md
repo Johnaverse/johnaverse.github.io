@@ -46,7 +46,7 @@ A fork's presence on your profile does not prove a contribution. Describe the sp
 
 ## Ordering, status, and removal
 
-`order` controls the ascending order within lists. `featured: true` makes a project eligible for a featured placement. `status` is `active`, `maintained`, `research`, or `completed`; it describes the project and is independent of whether its page is published.
+`order` controls the ascending order within lists. `featured: true` makes a project eligible for a featured placement. When its lifecycle is confirmed, `status` is `active`, `maintained`, `research`, or `completed`. Omit `status` when it is unconfirmed; do not choose a label to fill the field. Lifecycle status is independent of whether the page is published.
 
 Set `published: true` after reviewing the content. Set it to `false` to remove the page and all project-card appearances on the next build. Deleting the Markdown file also removes it. Keep `published: false` while exact project names, ownership, links, or sanitized descriptions are unresolved.
 

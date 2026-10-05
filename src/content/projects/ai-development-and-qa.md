@@ -6,7 +6,7 @@ relatedDomains: [cybersecurity, cloud]
 visibility: private
 attribution: integration
 status: active
-tags: [Codex, Claude, Hermes, OpenClaw, End-to-end QA, GitHub Actions]
+tags: [Codex, Claude, Hermes, OpenClaw, End-to-end QA, Argo Workflows, GitHub Actions]
 order: 9
 featured: false
 published: true
@@ -19,7 +19,9 @@ AI tools can accelerate development, but the resulting changes still need to fit
 
 ## My approach
 
-My environment includes Hermes, OpenClaw, Codex, and Claude workflows, together with AI-assisted end-to-end QA platforms. I use these tools for development and automation, and work with GitHub Actions and Flux workflows as part of the surrounding delivery process.
+My environment includes Hermes, OpenClaw, Codex, and Claude workflows, together with AI-assisted end-to-end QA platforms. I use these tools for development and automation.
+
+The surrounding delivery configuration has distinct responsibilities: GitHub Actions runs repository checks, Flux reconciles Kubernetes configuration, and Argo Workflows templates describe repeatable operational tasks. Keeping these responsibilities explicit makes it easier to follow a change from its source to the system that executes it.
 
 The emphasis is on connecting the pieces: the task, the change, the review, and the application behavior. Different tools contribute at different stages, and the engineer remains responsible for assessing the result.
 

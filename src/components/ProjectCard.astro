@@ -7,7 +7,7 @@ const { project, index = 0 } = Astro.props;
 const { data } = project;
 ---
 <article class="project-card" data-reveal style={`--reveal-delay:${(index % 2) * 70}ms`}>
-  <div class="project-card-top"><span class="eyebrow">{data.visibility === 'public' ? 'PUBLIC PROJECT' : 'PROJECT OVERVIEW'}</span><span class="project-status"><span></span>{data.status}</span></div>
+  <div class="project-card-top"><span class="eyebrow">{data.visibility === 'public' ? 'PUBLIC PROJECT' : 'PROJECT OVERVIEW'}</span>{data.status && <span class="project-status"><span></span>{data.status}</span>}</div>
   <h3><a href={projectHref(project)}>{data.title}<Icon name="external" size={24} /></a></h3>
   <p>{data.summary}</p>
   <ul class="tag-list" aria-label="Technologies">{data.tags.slice(0, 4).map(tag => <li>{tag}</li>)}</ul>

@@ -92,3 +92,12 @@ test('publication and project status remain independent', () => {
   assert.equal(data.status, 'completed');
   assert.equal(sortPublishedProjects([{ id: 'completed-project', data }]).length, 0);
 });
+
+test('an unconfirmed lifecycle can be omitted without inventing a status', () => {
+  const unconfirmed = Object.fromEntries(Object.entries(safeProject).filter(([key]) => key !== 'status'));
+  const data = projectSchema.parse(unconfirmed);
+  assert.equal(Object.hasOwn(data, 'status'), false);
+  assert.equal(data.published, true);
+  assert.equal(sortPublishedProjects([{ id: 'unconfirmed-lifecycle', data }]).length, 1);
+  assert.equal(projectSchema.safeParse({ ...unconfirmed, status: 'unknown' }).success, false);
+});

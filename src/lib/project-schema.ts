@@ -45,7 +45,7 @@ const sharedFields = {
   primaryDomain: z.enum(domainIds),
   relatedDomains: z.array(z.enum(domainIds)).default([]),
   attribution: z.enum(['original', 'integration', 'contribution']),
-  status: z.enum(['active', 'maintained', 'research', 'completed']),
+  status: z.enum(['active', 'maintained', 'research', 'completed']).optional(),
   tags: z.array(z.string().trim().min(1)),
   order: z.number(),
   featured: z.boolean(),

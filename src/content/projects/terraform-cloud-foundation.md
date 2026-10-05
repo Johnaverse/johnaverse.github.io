@@ -6,7 +6,7 @@ relatedDomains: [cybersecurity]
 visibility: private
 attribution: original
 status: active
-tags: [Terraform, OCI, Cloudflare, Infrastructure as code]
+tags: [Terraform, OCI, Cloudflare, Nginx, Infrastructure as code]
 order: 5
 featured: true
 published: true
@@ -19,9 +19,11 @@ As a computing environment grows, manually managed cloud resources become harder
 
 ## My approach
 
-This work brings OCI and Cloudflare resources into my infrastructure-as-code workflow. I focus on understandable resource definitions and deliberate changes, keeping the infrastructure close to the applications and services that depend on it.
+This work brings OCI and Cloudflare resources into my infrastructure-as-code workflow. My OCI project describes a paired reverse-proxy design using Nginx, with health checks and failover managed through Keepalived. The configuration and deployment documentation also address certificate renewal and synchronization between the proxy instances.
 
-The useful part is the operating model as much as the provisioning tool. Configuration in Git gives me something to review, compare, and revisit when a workload’s needs change.
+The useful part is the operating model as much as the provisioning tool. Configuration in Git gives me something to review, compare, and revisit when a workload’s needs change. Cloudflare networking and access controls connect the cloud resources to the services they support.
+
+The repository documents both automated provisioning and follow-up operational steps. That distinction matters: a provisioned instance and a fully verified service are different stages of the same deployment.
 
 ## My contribution
 
