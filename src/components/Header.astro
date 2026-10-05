@@ -2,19 +2,19 @@
 import { domains } from '../data/domains';
 import Icon from './Icon.astro';
 import { localeIds, localeNames, localeRoot, localizedPath, messages, type Locale } from '../i18n';
-interface Props { active?: string; locale?: Locale; }
-const { active = 'home', locale = 'en' } = Astro.props;
+interface Props { active?: string; locale?: Locale; languageHome?: boolean; }
+const { active = 'home', locale = 'en', languageHome = false } = Astro.props;
 const text = messages(locale);
 ---
 <header class="site-header">
   <div class="container header-inner">
-    <a class="wordmark" href={localeRoot(locale)} aria-label={text.home}><span class="brand-mark" aria-hidden="true">j<span>v</span><i></i></span><span>johnaverse<span class="wordmark-dot">.</span></span></a>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav"><span>{text.menu}</span><span class="menu-lines" aria-hidden="true"></span></button>
+    <a class="wordmark" href={localeRoot(locale)} aria-label={text.home} data-header-home><span class="brand-mark" aria-hidden="true">j<span>v</span><i></i></span><span>johnaverse<span class="wordmark-dot">.</span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav"><span data-header-menu>{text.menu}</span><span class="menu-lines" aria-hidden="true"></span></button>
     <nav class="primary-nav" id="primary-nav" aria-label={text.navLabel}>
-      {domains.map(domain => <a href={localizedPath(`/${domain.id}/`, locale)} aria-current={active === domain.id ? 'page' : undefined}>{text.domains[domain.id]}</a>)}
-      <a class="nav-github" href="https://github.com/Johnaverse" target="_blank" rel="noopener noreferrer" aria-label={`${text.github} (opens in a new tab)`}><Icon name="github" size={18} /><span>GitHub</span></a>
-      <a class="nav-contact" href="#contact">{text.connect} <Icon name="external" size={16} /></a>
-      <label class="language-switcher"><span class="sr-only">{text.language}</span><select data-language-select aria-label={text.language}>{localeIds.map(id => <option value={localizedPath(Astro.url.pathname, id)} selected={id === locale}>{localeNames[id]}</option>)}</select></label>
+      {domains.map(domain => <a href={localizedPath(`/${domain.id}/`, locale)} aria-current={active === domain.id ? 'page' : undefined} data-domain-nav={domain.id}>{text.domains[domain.id]}</a>)}
+      <a class="nav-github" href="https://github.com/Johnaverse" target="_blank" rel="noopener noreferrer" aria-label={`${text.github} (opens in a new tab)`} data-header-github><Icon name="github" size={18} /><span>GitHub</span></a>
+      <a class="nav-contact" href="#contact" data-header-contact>{text.connect} <Icon name="external" size={16} /></a>
+      <label class="language-switcher"><span class="sr-only">{text.language}</span><select data-language-select aria-label={text.language}>{localeIds.map(id => <option value={languageHome ? localeRoot(id) : localizedPath(Astro.url.pathname, id)} selected={id === locale}>{localeNames[id]}</option>)}</select></label>
     </nav>
   </div>
 </header>

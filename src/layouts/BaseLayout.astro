@@ -5,12 +5,13 @@ import '../styles/global.css';
 import '../styles/graphics.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { localizedPath, localeIds, localeFromPath, type Locale } from '../i18n';
+import { localizedPath, localeIds, localeFromPath, messages, type Locale } from '../i18n';
 interface Props { title: string; description: string; active?: string; accent?: string; noindex?: boolean; locale?: Locale; }
 const { title, description, active = 'home', accent = 'cyan', noindex = false, locale = localeFromPath(Astro.url.pathname) } = Astro.props;
 const canonical = new URL(noindex ? '/404.html' : Astro.url.pathname, Astro.site);
 const pagePath = Astro.url.pathname;
 const socialImage = new URL('/social-card.png', Astro.site);
+const text = messages(locale);
 const person = { '@context': 'https://schema.org', '@type': 'Person', name: 'Johnathan L.', alternateName: 'Johnaverse', jobTitle: 'Site Reliability Engineer', url: Astro.site?.toString(), sameAs: ['https://github.com/Johnaverse', 'https://www.linkedin.com/in/johnathan-l-5b2492146/'] };
 ---
 <!doctype html>
@@ -50,8 +51,8 @@ const person = { '@context': 'https://schema.org', '@type': 'Person', name: 'Joh
     </style></noscript>
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <Header active={active} locale={locale} />
+    <a class="skip-link" href="#main">{text.skip}</a>
+    <Header active={active} locale={locale} languageHome={noindex} />
     <main id="main"><slot /></main>
     <Footer locale={locale} />
     <script>
