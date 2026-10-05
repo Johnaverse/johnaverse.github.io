@@ -30,4 +30,6 @@ Experience is edited in `src/data/experience.ts`, domain introductions in `src/d
 
 Pull requests run type, content and production-build validation. Merging to `main` builds and deploys **only `dist`** through GitHub Actions to GitHub Pages. The existing domain and `/cloud/backup/` route are preserved. Configure the Pages source as **GitHub Actions** and retain `www.johnaverse.cc` as the custom domain in repository settings.
 
-The deployed site needs no server, external font service, analytics, API keys or runtime project discovery. Review all new content before publication; do not place resumes, private URLs or infrastructure configuration in public assets.
+The floating website guide answers questions with cited excerpts from the published pages in all four languages. Its index is regenerated from the rendered site on every build. It works on GitHub Pages without a server or API keys; an optional, separate Cloudflare Worker connects it to a model service. See [the assistant guide](docs/assistant.md) for behavior, privacy, and server configuration.
+
+Review all new content before publication; do not place resumes, private URLs or infrastructure configuration in public assets.

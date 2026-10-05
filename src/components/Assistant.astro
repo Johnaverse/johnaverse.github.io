@@ -1,0 +1,28 @@
+---
+import Icon from './Icon.astro';
+import '../styles/assistant.css';
+import { assistantCopy } from '../i18n/assistant';
+import type { Locale } from '../i18n';
+import { isSafePublicUrl } from '../lib/project-schema';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const text = assistantCopy[locale];
+const endpoint = import.meta.env.PUBLIC_ASSISTANT_ENDPOINT?.trim() ?? '';
+if (endpoint && (!isSafePublicUrl(endpoint) || new URL(endpoint).search || new URL(endpoint).hash)) {
+  throw new Error('PUBLIC_ASSISTANT_ENDPOINT must be an HTTPS public URL without credentials, query parameters or a fragment.');
+}
+---
+<div data-assistant-root data-locale={locale} data-copy={JSON.stringify(text)} data-endpoint={endpoint}>
+  <button type="button" class="assistant-launch" data-assistant-launch aria-label={text.launch} aria-haspopup="dialog" aria-controls="assistant-dialog" aria-expanded="false" hidden><Icon name="chat" size={21} /><span>{text.launch}</span><span class="assistant-launch-dot" aria-hidden="true"></span></button>
+  <dialog id="assistant-dialog" class="assistant-dialog" aria-labelledby="assistant-title" aria-describedby="assistant-description">
+    <div class="assistant-panel">
+      <header class="assistant-header"><div class="assistant-mark" aria-hidden="true"><Icon name="chat" size={23} /></div><div class="assistant-heading"><p>{text.subtitle}</p><h2 id="assistant-title">{text.title}</h2></div><div class="assistant-header-actions"><button type="button" data-assistant-reset aria-label={text.reset} title={text.reset}><Icon name="refresh" size={19} /></button><button type="button" data-assistant-close aria-label={text.close}><Icon name="close" size={20} /></button></div></header>
+      <div class="assistant-transcript" data-assistant-scroll>
+        <div class="assistant-welcome" data-assistant-welcome><span class="assistant-welcome-symbol" aria-hidden="true">jv.</span><h3>{text.welcome}</h3><p id="assistant-description">{endpoint ? text.aiDescription : text.description}</p><div class="assistant-suggestions">{text.prompts.map((prompt, index) => <button type="button" data-assistant-prompt={prompt}><span class="assistant-prompt-number" aria-hidden="true">0{index + 1}</span><span>{prompt}</span><Icon name="arrow" size={17} /></button>)}</div></div>
+        <div class="assistant-log" data-assistant-log role="log" aria-live="polite" aria-relevant="additions" aria-label={text.title}></div>
+      </div>
+      <form class="assistant-form" data-assistant-form><div class="assistant-status" role="status" data-assistant-status></div><label for="assistant-input">{text.input}</label><div class="assistant-input-row"><textarea id="assistant-input" data-assistant-input rows="2" maxlength="600" placeholder={text.placeholder} required></textarea><button type="submit" class="assistant-send" data-assistant-send aria-label={text.send}><Icon name="arrow" size={22} /></button></div><p class="assistant-privacy">{endpoint ? text.aiPrivacy : text.privacy}</p></form>
+    </div>
+  </dialog>
+</div>
+<script>import '../scripts/assistant';</script>
