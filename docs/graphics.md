@@ -11,7 +11,7 @@ Five new illustrations were generated using built-in `image_gen.imagegen` in gen
 - AI and cybersecurity: `public/images/domains/ai.webp`, `cybersecurity.webp`. [Exact prompts](graphics-prompts-ai-security.md).
 - Local hardware: `public/images/hardware-lab.webp`. [Existing hardware prompt](image-prompts.md).
 
-`src/components/Artwork.astro` owns responsive image markup, alt descriptions, captions, and loading priority. The first hero image loads eagerly; domain cards and subsequent illustrations load lazily. Explicit dimensions reserve layout space. All images are served locally.
+`src/components/Artwork.astro` owns responsive image markup, captions, and loading priority; alt descriptions live in `src/i18n/artwork.ts` so the homepage can share them. The first hero image loads eagerly; domain cards and subsequent illustrations load lazily. Explicit dimensions reserve layout space. All images are served locally.
 
 ## Project workflows
 
@@ -21,4 +21,4 @@ Five new illustrations were generated using built-in `image_gen.imagegen` in gen
 
 Artwork has a subtle ambient light treatment; project flows use moving dashed strokes. Both are paused offscreen, when the document is hidden, and by the site's persistent motion control. System reduced-motion preference disables ambient motion and hover transforms. Graphics remain visible without JavaScript.
 
-To replace artwork, preserve the three filenames, update dimensions and alt text in `Artwork.astro` if necessary, and record the new prompt or provenance here. To add a project diagram, extend the keyed diagram map in `ProjectVisual.astro`; unknown projects receive a general conceptual workflow.
+To replace artwork, preserve the three filenames, update dimensions and alt text in `Artwork.astro` if necessary, and record the new prompt or provenance here. To add a project diagram, extend the keyed workflow map in `src/data/workflows.ts`; unknown projects receive a general conceptual workflow.

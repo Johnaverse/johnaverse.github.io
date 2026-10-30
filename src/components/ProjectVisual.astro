@@ -1,11 +1,10 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { messages, type Locale } from '../i18n';
+import { workflowFor, workflowEdges, type WorkflowIcon } from '../data/workflows';
 import { localizedWorkflowStages } from '../i18n/projects';
 
 interface Props { project: CollectionEntry<'projects'>; locale?: Locale; title?: string; }
-interface Stage { label: string; icon: keyof typeof icons; }
-interface Diagram { stages: Stage[]; edges?: [number, number][]; }
 
 const icons = {
   sources: ['M8 8h8v8H8z M28 8h8v8h-8z M18 28h8v8h-8z', 'M12 16v5h20v-5 M22 21v7'],
@@ -45,32 +44,14 @@ const icons = {
   deploy: ['M22 32V8 M13 17l9-9 9 9', 'M9 28v10h26V28'],
   backup: ['M8 11c0-4 28-4 28 0s-28 4-28 0Z M8 11v23c0 4 28 4 28 0V11', 'M8 22c0 4 28 4 28 0'],
   update: ['M10 31a15 15 0 1 0-2-17 M22 30V13 M15 20l7-7 7 7', 'M8 5v9h9'],
-} as const;
+} as const satisfies Record<WorkflowIcon, readonly string[]>;
 
-const diagrams: Record<string, Diagram> = {
-  'chains-api': { stages: [{ label: 'Sources', icon: 'sources' }, { label: 'Registry', icon: 'registry' }, { label: 'REST / MCP', icon: 'api' }] },
-  'service-log-monitor': { stages: [{ label: 'Logs', icon: 'logs' }, { label: 'Threshold', icon: 'threshold' }, { label: 'Restart', icon: 'restart' }, { label: 'Metrics', icon: 'metrics' }] },
-  'evm-rpc-postman': { stages: [{ label: 'Methods', icon: 'registry' }, { label: 'Request', icon: 'request' }, { label: 'RPC node', icon: 'node' }, { label: 'Response', icon: 'response' }] },
-  'launchpad-charts': { stages: [{ label: 'Helm charts', icon: 'charts' }, { label: 'Kubernetes', icon: 'cluster' }, { label: 'Services', icon: 'service' }] },
-  'terraform-cloud-foundation': { stages: [{ label: 'Terraform', icon: 'terraform' }, { label: 'Plan', icon: 'plan' }, { label: 'OCI', icon: 'cloud' }, { label: 'Cloudflare', icon: 'access' }], edges: [[0, 1], [1, 2], [1, 3]] },
-  'johnaverse-fleet': { stages: [{ label: 'Git', icon: 'git' }, { label: 'Flux', icon: 'flux' }, { label: 'Terraform', icon: 'terraform' }, { label: 'Docker', icon: 'docker' }], edges: [[0, 1], [2, 3]] },
-  'model-routing-and-access': { stages: [{ label: 'Tools', icon: 'tool' }, { label: 'Access', icon: 'access' }, { label: 'LiteLLM', icon: 'routing' }, { label: 'Models', icon: 'models' }] },
-  'ops-ui-agent-guardrails': { stages: [{ label: 'Request', icon: 'request' }, { label: 'Guardrails', icon: 'shield' }, { label: 'Tool action', icon: 'tool' }] },
-  'ai-development-and-qa': { stages: [{ label: 'Change', icon: 'code' }, { label: 'Review', icon: 'review' }, { label: 'QA', icon: 'qa' }, { label: 'Feedback', icon: 'feedback' }] },
-  'ca-security-center': { stages: [{ label: 'Signals', icon: 'signal' }, { label: 'Triage', icon: 'triage' }, { label: 'Investigate', icon: 'review' }] },
-  'code-and-contract-analysis': { stages: [{ label: 'Source', icon: 'code' }, { label: 'Analysis', icon: 'analysis' }, { label: 'Findings', icon: 'findings' }] },
-  'blockchain-data-operations': { stages: [{ label: 'Nodes', icon: 'node' }, { label: 'RPC', icon: 'api' }, { label: 'Firehose', icon: 'stream' }, { label: 'Substreams', icon: 'sources' }], edges: [[0, 1], [0, 2], [2, 3]] },
-  'nft-deployment-work': { stages: [{ label: 'Contract', icon: 'contract' }, { label: 'Deploy', icon: 'deploy' }, { label: 'Application', icon: 'service' }] },
-  'resilience-and-update-policies': { stages: [{ label: 'Services', icon: 'node' }, { label: 'Backups', icon: 'backup' }, { label: 'Grafana', icon: 'metrics' }, { label: 'Updates', icon: 'update' }], edges: [[0, 1], [0, 2], [0, 3]] },
-};
 
 const { project, locale = 'en', title = project.data.title } = Astro.props;
 const text = messages(locale);
-const diagram = diagrams[project.id] ?? {
-  stages: [{ label: 'Context', icon: 'sources' }, { label: 'Approach', icon: 'tool' }, { label: 'Outcome', icon: 'response' }],
-} satisfies Diagram;
+const diagram = workflowFor(project.id);
 const centers = diagram.stages.length === 4 ? [70, 210, 350, 490] : [90, 280, 470];
-const edges = diagram.edges ?? diagram.stages.slice(1).map((_, index) => [index, index + 1] as [number, number]);
+const edges = workflowEdges(diagram);
 const translatedLabels = localizedWorkflowStages(project.id,locale);
 const stages = diagram.stages.map((stage,index) => ({ ...stage, label: translatedLabels?.[index] ?? stage.label }));
 const routes = edges.map(([from, to]) => {

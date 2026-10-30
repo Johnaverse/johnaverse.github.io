@@ -1,0 +1,207 @@
+---
+// The homepage: one screen per section on large displays, ordinary scrolling elsewhere.
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource-variable/space-grotesk/wght.css';
+import '../styles/fullpage.css';
+import SiteHead from './SiteHead.astro';
+import { domains } from '../data/domains';
+import { experiences } from '../data/experience';
+import { workflowFor, workflowPaths } from '../data/workflows';
+import { getPublishedProjects, projectHref } from '../lib/projects';
+import { artworkDescriptions } from '../i18n/artwork';
+import { localizedExperience } from '../i18n/experience';
+import { localizedProject, localizedWorkflowStages } from '../i18n/projects';
+import { localeIds, localeNames, localeRoot, localizedDomain, localizedPath, messages, type Locale } from '../i18n';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const text = messages(locale);
+const sentence = (value: string) => value.charAt(0) + value.slice(1).toLowerCase();
+const endSentence = (value: string) => /[\p{Script=Han}]$/u.test(value) ? `${value}。` : `${value}.`;
+const title = locale === 'en' ? 'Johnaverse — Johnathan L. · Site Reliability Engineer' : `${text.homeHeadline} — Johnathan L. · Johnaverse`;
+const slideId = (id: string) => id === 'cybersecurity' ? 'security' : id;
+const image = (base: string) => ({ src: `${base}.webp`, srcset: `${base}-640.webp 640w, ${base}-1280.webp 1280w, ${base}.webp 1536w` });
+const sizes = '(max-width: 1000px) calc(100vw - 32px), 600px';
+
+const domainSlides = domains.map(domain => localizedDomain(domain, locale));
+
+const published = await getPublishedProjects();
+const projectSlides = domains.flatMap(domain => {
+  const project = published.find(item => item.data.primaryDomain === domain.id);
+  if (!project) return [];
+  const translation = localizedProject(project.id, locale);
+  const workflow = workflowFor(project.id);
+  const labels = localizedWorkflowStages(project.id, locale) ?? workflow.stages.map(stage => stage.label);
+  return [{
+    project,
+    accent: domain.accent,
+    title: translation?.title ?? project.data.title,
+    summary: translation?.summary ?? project.data.summary,
+    paths: workflowPaths(workflow).map(path => path.map(index => labels[index])),
+  }];
+});
+
+const domainOrder = ['cloud', 'cybersecurity', 'blockchain', 'ai'] as const;
+const roles = experiences.slice(0, 4).map(experience => {
+  const domain = domainOrder.find(id => experience.domains[id]?.length) ?? 'cloud';
+  const localized = localizedExperience(experience, locale, domain);
+  return { employer: experience.employer, title: localized.title, period: localized.period, point: localized.domains[domain]?.[0] ?? experience.domains[domain]?.[0] ?? '' };
+});
+const year = new Date().getFullYear();
+---
+<!doctype html>
+<html lang={locale}>
+<head>
+  <SiteHead title={title} description={text.homeIntro} locale={locale} />
+</head>
+<body>
+<a class="skip-link" href="#main">{text.skip}</a>
+<header class="fp-header">
+  <div class="fp-container header-inner">
+    <a class="wordmark" href="#home" aria-label={text.home}>johnaverse<span>.</span></a>
+    <nav class="primary-nav" aria-label={text.navLabel}>
+      <a class="nav-section" href="#domains" data-nav="domains">{text.navDomains}</a>
+      <a class="nav-section" href="#practice" data-nav="practice">{text.navPractice}</a>
+      <a class="nav-section" href="#experience" data-nav="experience">{text.experience}</a>
+      <a class="nav-section" href="#projects" data-nav="projects">{text.projects}</a>
+      <a href="#contact" data-nav="contact">{text.navContact}</a>
+      <label class="language"><span class="sr-only">{text.language}</span><select data-language-select aria-label={text.language}>{localeIds.map(id => <option value={localeRoot(id)} selected={id === locale}>{localeNames[id]}</option>)}</select></label>
+    </nav>
+  </div>
+</header>
+
+<nav class="fp-dots" aria-label={text.sectionsLabel}>
+  <a href="#home" title={text.home} aria-label={text.home}><span></span></a>
+  <a href="#domains" title={text.navDomains} aria-label={text.navDomains}><span></span></a>
+  <a href="#practice" title={text.navPractice} aria-label={text.navPractice}><span></span></a>
+  <a href="#experience" title={text.experience} aria-label={text.experience}><span></span></a>
+  <a href="#projects" title={text.projects} aria-label={text.projects}><span></span></a>
+  <a href="#contact" title={text.navContact} aria-label={text.navContact}><span></span></a>
+</nav>
+
+<div class="fp-wrap">
+<main class="fp-track" id="main">
+
+  <section class="fp-section" id="home" aria-label={text.home}>
+    <div class="fp-container split">
+      <div>
+        <h1>{text.homeHeadline} {text.homeAccent}</h1>
+        <p class="intro">{text.homeIntro}</p>
+        <div class="actions">
+          <a class="fp-button fp-button-primary" href="#domains">{text.explore}</a>
+          <a class="fp-button" href="https://github.com/Johnaverse" target="_blank" rel="noopener noreferrer">{text.github}</a>
+        </div>
+        <p class="meta home-meta">{text.toronto} · {text.currentRole}</p>
+      </div>
+      <figure class="figure">
+        <img {...image('/images/engineering-world')} sizes={sizes} width="1536" height="1024" alt={artworkDescriptions[locale].home} fetchpriority="high" decoding="async" />
+        <figcaption>{text.imageConcept}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="fp-section" id="domains" aria-label={text.navDomains}>
+    <div class="slides">
+      <div class="slides-track">
+        {domainSlides.map(domain => (
+          <article class={`slide accent-${domain.accent}`} id={slideId(domain.id)} data-accent={domain.accent}>
+            <div class="fp-container split">
+              <div>
+                <h2>{domain.name}</h2>
+                <p class="lead">{domain.headline}</p>
+                <p class="body">{domain.intro}</p>
+                <ul class="cap-list">{domain.capabilities.map(capability => <li>{capability.title}<span>{capability.tools.slice(0, 3).join(', ')}</span></li>)}</ul>
+                <a class="link" href={localizedPath(`/${domain.id}/`, locale)}>{text.domainExplore} <span aria-hidden="true">→</span></a>
+              </div>
+              <figure class="figure"><img {...image(`/images/domains/${domain.id}`)} sizes={sizes} width="1536" height="1024" alt="" loading="lazy" decoding="async" /></figure>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+    <div class="slide-bar fp-only">
+      <button class="slide-step" type="button" aria-label={text.previous} data-slide-dir="-1">←</button>
+      <div class="slide-tabs" role="group" aria-label={text.navDomains}>
+        {domainSlides.map((domain, index) => <button class="slide-tab" type="button" data-accent={domain.accent} data-slide={index}>{domain.shortName}</button>)}
+      </div>
+      <button class="slide-step" type="button" aria-label={text.next} data-slide-dir="1">→</button>
+    </div>
+  </section>
+
+  <section class="fp-section fp-band" id="practice" aria-label={text.navPractice}>
+    <div class="fp-container">
+      <div class="practice-head">
+        <h2>{text.workingHeading} {text.workingAccent}</h2>
+        <p class="lead">{text.workingIntro}</p>
+      </div>
+      <ul class="principles">{text.practices.map(practice => <li><h3>{practice.title}</h3><p>{practice.body}</p></li>)}</ul>
+      <nav class="disciplines" aria-label={text.navDomains}>
+        {domainSlides.map(domain => <a class={`accent-${domain.accent}`} href={`#${slideId(domain.id)}`}><strong>{domain.name}</strong><span>{domain.tags.slice(0, 3).join(', ')}</span></a>)}
+      </nav>
+    </div>
+  </section>
+
+  <section class="fp-section" id="experience" aria-label={text.experience}>
+    <div class="fp-container">
+      <h2>{text.experience}</h2>
+      <ol class="roles">
+        {roles.map(role => <li><span class="period">{role.period}</span><div><strong>{role.employer}</strong><span class="role">{role.title}</span></div><p>{role.point}</p></li>)}
+      </ol>
+      <p class="education">{text.degree}, {text.university}, 2019</p>
+    </div>
+  </section>
+
+  <section class="fp-section fp-band" id="projects" aria-label={text.projects}>
+    <div class="slides">
+      <div class="slides-track">
+        {projectSlides.map(({ project, accent, title, summary, paths }) => (
+          <article class={`slide accent-${accent}`} id={project.id} data-accent={accent}>
+            <div class="fp-container split">
+              <div>
+                <h2>{title}</h2>
+                <p class="meta">{sentence(project.data.visibility === 'public' ? text.projectPublic : text.projectOverview)} · {text.domains[project.data.primaryDomain]}{project.data.status && ` · ${text.status[project.data.status]}`}</p>
+                <p class="lead">{summary}</p>
+                <ul class="tags">{project.data.tags.slice(0, 4).map(tag => <li>{tag}</li>)}</ul>
+                <div class="links">
+                  <a class="link" href={localizedPath(projectHref(project), locale)}>{text.projectExplore} <span aria-hidden="true">→</span></a>
+                  {project.data.repositoryUrl && <a class="link" href={project.data.repositoryUrl} target="_blank" rel="noopener noreferrer">{text.publicSource} <span aria-hidden="true">→</span></a>}
+                </div>
+              </div>
+              <div class="flow-box">
+                <h3>{text.workflowCaption}</h3>
+                {paths.map(path => <ol class="flow">{path.map(label => <li><span class="step">{label}</span></li>)}</ol>)}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+    <div class="slide-bar fp-only">
+      <button class="slide-step" type="button" aria-label={text.previous} data-slide-dir="-1">←</button>
+      <div class="slide-tabs" role="group" aria-label={text.projects}>
+        {projectSlides.map(({ accent, title }, index) => <button class="slide-tab" type="button" data-accent={accent} data-slide={index}>{title}</button>)}
+      </div>
+      <button class="slide-step" type="button" aria-label={text.next} data-slide-dir="1">→</button>
+    </div>
+  </section>
+
+  <section class="fp-section fp-deep" id="contact" aria-label={text.navContact}>
+    <div class="fp-container">
+      <h2>{text.connect}</h2>
+      <p class="lead">{endSentence(sentence(text.homeFooter))}</p>
+      <div class="contact-row"><a class="email" id="email" href="mailto:contact@johnaverse.cc">contact@johnaverse.cc</a><button class="fp-button" type="button" id="copy-email" data-copied={text.copied} data-fallback={text.copyFallback}>{text.copyAddress}</button></div>
+      <div class="social"><a class="link" href="https://www.linkedin.com/in/johnathan-l-5b2492146/" target="_blank" rel="noopener noreferrer">LinkedIn</a><a class="link" href="https://github.com/Johnaverse" target="_blank" rel="noopener noreferrer">GitHub</a></div>
+      <div class="footer-bar">
+        <span>{text.copyright.replace('{year}', String(year))} · {text.toronto}</span>
+        <nav aria-label={text.navDomains}>{domainSlides.map(domain => <a href={`#${slideId(domain.id)}`}>{domain.shortName}</a>)}</nav>
+        <button class="fp-button" type="button" id="motion-toggle" data-pause-text={text.motionPause} data-resume-text={text.motionResume}>{text.motionPause}</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+</div>
+<script>
+  import '../scripts/fullpage';
+</script>
+</body>
+</html>
