@@ -22,3 +22,7 @@ Five new illustrations were generated using built-in `image_gen.imagegen` in gen
 Artwork has a subtle ambient light treatment; project flows use moving dashed strokes. Both are paused offscreen, when the document is hidden, and by the site's persistent motion control. System reduced-motion preference disables ambient motion and hover transforms. Graphics remain visible without JavaScript.
 
 To replace artwork, preserve the three filenames, update dimensions and alt text in `Artwork.astro` if necessary, and record the new prompt or provenance here. To add a project diagram, extend the keyed diagram map in `ProjectVisual.astro`; unknown projects receive a general conceptual workflow.
+
+## Security stage video
+
+`/security/` (`src/pages/security.astro`) is a fullscreen entrance to the Cybersecurity domain. Its looping background video is loaded from an external CloudFront URL given in the page brief; it is not stored in this repository and its generation prompt is not recorded here. The page grades it with two SVG colour-table filters and stops it when the visitor turns motion off or the system asks for reduced motion. To self-host it, add the file under `public/` and replace the `video` constant in the page.
