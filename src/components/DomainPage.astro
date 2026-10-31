@@ -6,18 +6,22 @@ import ProjectCard from './ProjectCard.astro';
 import ExperienceList from './ExperienceList.astro';
 import HardwareLab from './HardwareLab.astro';
 import Icon from './Icon.astro';
+import LiveFeed from './LiveFeed.astro';
 import { domains, type Domain } from '../data/domains';
 import { getDomainProjects } from '../lib/projects';
+import { feedFor } from '../data/feeds';
 import { localeRoot, messages, type Locale } from '../i18n';
 interface Props { domain: Domain; locale: Locale; }
 const { domain, locale } = Astro.props;
 const text = messages(locale);
 const projects = await getDomainProjects(domain.id);
+const feed = feedFor(domain.id);
 ---
 <BaseLayout title={`${domain.name} — Johnathan L. · Johnaverse`} description={domain.description} active={domain.id} accent={domain.accent} locale={locale}>
   <section class="domain-hero container" id="overview"><div class="domain-hero-copy" data-reveal><a class="back-link" href={localeRoot(locale)}><span aria-hidden="true">←</span> {text.allDomains}</a><p class="eyebrow"><span class="status-dot"></span> {text.overview.toUpperCase()} {domain.index} / {domain.name.toUpperCase()}</p><h1>{domain.headline}</h1><p class="hero-description">{domain.intro}</p><div class="hero-actions"><a class="button button-primary" href="#projects">{text.viewProjects} <Icon /></a><a class="button button-quiet" href="#experience">{text.relevantExperience} <Icon name="external" size={16} /></a></div></div><div class="domain-hero-visual" data-reveal style="--reveal-delay:100ms"><Artwork subject={domain.id} eager locale={locale} /></div></section>
-  <nav class="section-nav" aria-label={`${domain.name} ${text.domainSections}`}><div class="container"><span class="section-nav-label">{domain.shortName}</span><div><a href="#overview">{text.overview}</a><a href="#capabilities">{text.capabilities}</a><a href="#experience">{text.experience}</a><a href="#projects">{text.projects}</a>{domain.id === 'cloud' && <a href="#lab">{text.localLab}</a>}</div></div></nav>
+  <nav class="section-nav" aria-label={`${domain.name} ${text.domainSections}`}><div class="container"><span class="section-nav-label">{domain.shortName}</span><div><a href="#overview">{text.overview}</a><a href="#capabilities">{text.capabilities}</a>{feed && <a href={`#${feed.section}`}>{feed.kind === 'threat-briefing' ? text.feed.navBriefing : text.feed.navIncidents}</a>}<a href="#experience">{text.experience}</a><a href="#projects">{text.projects}</a>{domain.id === 'cloud' && <a href="#lab">{text.localLab}</a>}</div></div></nav>
   <section class="section container" id="capabilities"><div class="section-heading" data-reveal><div><p class="eyebrow">{text.engineeringScope}</p><h2>{text.whatWorkOn}</h2></div><p>{text.capabilitiesIntro}</p></div><div class="capability-layout"><div class="capability-map" data-reveal><SystemMap stages={domain.diagram} label={`${domain.name}: ${text.conceptHomeNote}`} locale={locale} /></div><div class="capability-list">{domain.capabilities.map((capability, i) => <article class="capability-item" data-reveal><span class="capability-number">0{i + 1}</span><h3>{capability.title}</h3><div><p>{capability.description}</p><ul class="tag-list">{capability.tools.map(tool => <li>{tool}</li>)}</ul></div></article>)}</div></div>{domain.id === 'cloud' && <a class="text-link capability-extra" href={`${localeRoot(locale)}cloud/backup/`}>{text.backupLink} <Icon /></a>}</section>
+  {feed && <LiveFeed feed={feed} locale={locale} />}
   <section class="experience-section section" id="experience"><div class="container"><div class="section-heading" data-reveal><div><p class="eyebrow">{text.experienceEyebrow}</p><h2>{text.experienceHeading}</h2></div><p>{text.experienceIntro} {domain.name.toLowerCase()}.</p></div><ExperienceList domain={domain.id} locale={locale} /></div></section>
   <section class="section container" id="projects"><div class="section-heading" data-reveal><div><p class="eyebrow">{text.appliedEngineering}</p><h2>{text.projectsHeading}</h2></div><p>{text.projectsIntro}</p></div><div class="project-grid">{projects.map((project, i) => <ProjectCard project={project} index={i} locale={locale} />)}</div></section>
   {domain.id === 'cloud' && <HardwareLab locale={locale} />}

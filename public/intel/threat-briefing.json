@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "kind": "threat-briefing",
+  "publishedAt": "2026-10-30T12:00:00Z",
+  "window": { "start": "2026-10-29T13:43:35Z", "end": "2026-10-30T13:43:35Z" },
+  "summary": "Two new CISA KEV additions are being actively exploited. Patch GitLab and edge VPN appliances now.",
+  "groups": [
+    {
+      "title": "Known exploited vulnerabilities",
+      "items": [
+        { "id": "CVE-2026-97229", "product": "GitLab", "title": "Unauthenticated remote code execution", "cvss": 10.0, "exploitation": "kev", "fixedIn": "19.4.2", "action": "Patch GitLab now." },
+        { "id": "CVE-2026-76418", "product": "Cisco ASA/FTD", "title": "SSL VPN denial of service", "cvss": 8.6, "exploitation": "kev", "action": "Patch edge devices now." }
+      ]
+    },
+    {
+      "title": "New and updated CVEs",
+      "items": [
+        { "id": "CVE-2026-118988", "product": "CallBackery", "title": "Unauthenticated file read", "cvss": null, "cvssNote": "Not yet scored in NVD.", "exploitation": "none", "fixedIn": "0.60.1", "note": "Newly ingested." },
+        { "id": "CVE-2026-118539", "product": "Drupal Commerce", "title": "Authentication bypass", "cvss": null, "cvssNote": "Not yet scored in NVD; severity comes from the vendor and press reports.", "exploitation": "reported", "fixedIn": "2.41 and 3.3.13" },
+        { "id": "CVE-2026-101767", "product": "Oracle AOL", "title": "Remote code execution", "cvss": 9.8, "exploitation": "reported", "note": "New exploitation reports." }
+      ]
+    },
+    {
+      "title": "Critical alerts",
+      "items": [
+        { "product": "Collabora Online and Arista VeloCloud", "title": "CISA flags actively exploited flaws", "cvss": 9.2, "cvssNote": "Score as reported by the source.", "exploitation": "reported", "note": "Reported by the source; not independently verified." }
+      ]
+    }
+  ],
+  "pipeline": { "status": "healthy", "note": "No action needed." },
+  "gaps": [
+    "oss-security returned only 4 items in this window. It may be under-collected; no outage is confirmed.",
+    "CVE-2026-118539 and CVE-2026-118988 are not yet scored in NVD, so their severity comes from the vendor and The Hacker News.",
+    "Exploitation claims are as reported by sources and have not been independently verified."
+  ]
+}

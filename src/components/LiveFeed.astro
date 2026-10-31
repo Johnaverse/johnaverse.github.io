@@ -1,0 +1,23 @@
+---
+import '../styles/live-feed.css';
+import type { FeedConfig } from '../data/feeds';
+import { messages, type Locale } from '../i18n';
+interface Props { feed: FeedConfig; locale: Locale; }
+const { feed, locale } = Astro.props;
+const t = messages(locale).feed;
+const briefing = feed.kind === 'threat-briefing';
+const titleId = `${feed.section}-title`;
+---
+<section class="section container live-feed" id={feed.section} aria-labelledby={titleId}>
+  <div class="section-heading" data-reveal>
+    <div><p class="eyebrow">{briefing ? t.briefingEyebrow : t.incidentsEyebrow}</p><h2 id={titleId}>{briefing ? t.briefingTitle : t.incidentsTitle}</h2></div>
+    <p>{briefing ? t.briefingIntro : t.incidentsIntro}{t.language && <span class="feed-language"> {t.language}</span>}</p>
+  </div>
+  <div class="feed" lang="en" data-feed-kind={feed.kind} data-feed-url={feed.url} data-refresh={feed.refreshSeconds} data-locale={locale} data-strings={JSON.stringify(t)} aria-busy="true">
+    <p class="feed-state" lang={locale}>{t.loading}</p>
+  </div>
+  <noscript><p class="feed-state">{t.noscript} <a class="feed-raw" href={feed.url}>{t.rawData}</a></p></noscript>
+</section>
+<script>
+  import '../scripts/live-feed';
+</script>
